@@ -10,6 +10,13 @@ vi.mock("../smoke/VideoPlayer", () => ({
 
 const smokeRows = () => within(screen.getByRole("list", { name: "Smokes" })).getAllByRole("link");
 const currentLocation = () => screen.getByTestId("location").textContent;
+// The smoke card draws its own mini radar, so the page's radar is the first one in the DOM.
+const mainRadar = () => within(screen.getAllByTestId("radar")[0]);
+const selectedMarkers = () =>
+  mainRadar()
+    .getAllByTestId("landing-marker")
+    .filter((marker) => marker.getAttribute("data-selected") === "true");
+const circleOf = (element: HTMLElement) => element.querySelector("circle");
 
 function mockRadarSize(size: number) {
   vi.spyOn(screen.getByTestId("radar"), "getBoundingClientRect").mockReturnValue({
@@ -56,7 +63,65 @@ describe("MapPage", () => {
       "href",
       "/maps/mirage?area=A",
     );
-    expect(screen.getAllByTestId("stand-dot").length).toBeGreaterThan(0);
+    expect(mainRadar().getAllByTestId("stand-dot")).toHaveLength(1);
+  });
+
+  it("highlights the selected smoke and draws its stand dot and line on the radar", () => {
+    renderAt("/maps/mirage/smokes/mirage-ct-from-t-ramp");
+    expect(mainRadar().getAllByTestId("landing-marker")).toHaveLength(5);
+    // CT lands at (0.3, 0.2) and is thrown from (0.7, 0.3), in 0-1000 overlay units.
+    const [selected, ...others] = selectedMarkers();
+    expect(others).toHaveLength(0);
+    expect(circleOf(selected)).toHaveAttribute("cx", "300");
+    expect(circleOf(selected)).toHaveAttribute("cy", "200");
+    expect(mainRadar().getAllByTestId("stand-dot")).toHaveLength(1);
+    expect(mainRadar().getByTestId("stand-dot")).toHaveAttribute("cx", "700");
+    expect(mainRadar().getByTestId("stand-dot")).toHaveAttribute("cy", "300");
+    expect(mainRadar().getAllByTestId("stand-line")).toHaveLength(1);
+    expect(mainRadar().getByTestId("stand-line")).toHaveAttribute("x1", "700");
+    expect(mainRadar().getByTestId("stand-line")).toHaveAttribute("y1", "300");
+    expect(mainRadar().getByTestId("stand-line")).toHaveAttribute("x2", "300");
+    expect(mainRadar().getByTestId("stand-line")).toHaveAttribute("y2", "200");
+  });
+
+  it("highlights nothing and draws no stand marks on the list view", () => {
+    renderAt("/maps/mirage");
+    expect(selectedMarkers()).toHaveLength(0);
+    expect(mainRadar().queryByTestId("stand-dot")).toBeNull();
+    expect(mainRadar().queryByTestId("stand-line")).toBeNull();
+  });
+
+  it("keeps a filtered-out smoke on the radar, highlighted, next to the filtered ones", () => {
+    renderAt("/maps/mirage/smokes/mirage-window-from-t-spawn?side=CT");
+    // Top Mid (the only CT smoke) plus the excluded Window that was deep-linked.
+    expect(mainRadar().getAllByTestId("landing-marker")).toHaveLength(2);
+    const [selected, ...others] = selectedMarkers();
+    expect(others).toHaveLength(0);
+    // Window lands at (0.45, 0.45).
+    expect(circleOf(selected)).toHaveAttribute("cx", "450");
+    expect(circleOf(selected)).toHaveAttribute("cy", "450");
+    expect(mainRadar().getAllByTestId("stand-dot")).toHaveLength(1);
+    expect(mainRadar().getAllByTestId("stand-line")).toHaveLength(1);
+  });
+
+  it("draws neither stand dot nor line when the stand is on the other level", () => {
+    // Ramp is thrown from the upper level and lands on the lower one.
+    renderAt("/maps/nuke/smokes/nuke-ramp-from-lobby?level=lower");
+    expect(mainRadar().getAllByTestId("landing-marker")).toHaveLength(1);
+    expect(selectedMarkers()).toHaveLength(1);
+    expect(mainRadar().queryByTestId("stand-dot")).toBeNull();
+    expect(mainRadar().queryByTestId("stand-line")).toBeNull();
+  });
+
+  it("draws the stand dot but no line or landing marker when only the stand is on the level shown", () => {
+    renderAt("/maps/nuke/smokes/nuke-ramp-from-lobby?level=upper");
+    // Only Outside (which lands upstairs) is on the radar; Ramp lands downstairs.
+    expect(mainRadar().getAllByTestId("landing-marker")).toHaveLength(1);
+    expect(selectedMarkers()).toHaveLength(0);
+    expect(mainRadar().getAllByTestId("stand-dot")).toHaveLength(1);
+    expect(mainRadar().getByTestId("stand-dot")).toHaveAttribute("cx", "300");
+    expect(mainRadar().getByTestId("stand-dot")).toHaveAttribute("cy", "600");
+    expect(mainRadar().queryByTestId("stand-line")).toBeNull();
   });
 
   it("still opens a smoke that the filters exclude, with ‹ › disabled", () => {
