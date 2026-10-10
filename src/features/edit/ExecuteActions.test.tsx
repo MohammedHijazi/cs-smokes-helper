@@ -49,7 +49,11 @@ describe("ExecuteActions", () => {
     expect(server.fetch).not.toHaveBeenCalled();
   });
 
-  it("has no execute edit controls outside dev", () => {
+  it("has no execute edit controls outside dev", async () => {
+    // Warm the lazy edit component up with DEV on, so a missing guard would render it at once.
+    const dev = renderAt("/maps/mirage/executes/mirage-a-execute");
+    await deleteButton();
+    dev.unmount();
     vi.stubEnv("DEV", false);
     const view = renderAt("/maps/mirage?tab=executes");
     expect(screen.queryByRole("link", { name: "+ Add execute" })).toBeNull();

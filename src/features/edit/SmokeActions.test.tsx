@@ -115,9 +115,14 @@ describe("Edit and Delete", () => {
 });
 
 describe("outside dev", () => {
-  it("has no edit buttons on the card", () => {
+  it("has no edit buttons on the card", async () => {
+    const path = "/maps/mirage/smokes/mirage-window-from-t-spawn";
+    // Warm the lazy edit component up with DEV on, so a missing guard would render it at once.
+    const dev = renderAt(path);
+    await screen.findByRole("button", { name: "Mark reviewed" }, { timeout: 5000 });
+    dev.unmount();
     vi.stubEnv("DEV", false);
-    renderAt("/maps/mirage/smokes/mirage-window-from-t-spawn");
+    renderAt(path);
     expect(screen.queryByRole("button", { name: "Mark reviewed" })).toBeNull();
     expect(screen.queryByRole("link", { name: "Edit" })).toBeNull();
   });
