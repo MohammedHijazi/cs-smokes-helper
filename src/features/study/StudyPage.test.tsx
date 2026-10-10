@@ -1,9 +1,12 @@
-import { fireEvent, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi } from "vitest";
+import type { QueueItem } from "../../lib/scheduler";
 import { STORAGE_KEY, defaultProgress, type Progress } from "../../lib/storage";
+import { makeLineup } from "../../test/fixtures";
 import { failingStorage, memoryStorage } from "../../test/memoryStorage";
 import { renderAt } from "../../test/render";
+import { StudyCard } from "./StudyCard";
 
 vi.mock("../../data", async () => (await import("../../test/fixtureData")).mockDataModule());
 vi.mock("../smoke/VideoPlayer", () => ({
@@ -130,6 +133,96 @@ describe("StudyPage", () => {
     await userEvent.click(screen.getByRole("checkbox", { name: "CT" }));
     expect(screen.getByText("No smokes match these choices.")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Start" })).toBeDisabled();
+  });
+
+  describe("Nuke levels", () => {
+    const nukeOnly = () =>
+      stored({
+        ...defaultProgress(),
+        settings: { ...defaultProgress().settings, maps: ["nuke"] },
+      } as Progress);
+    const studyCard = () => screen.getByRole("article", { name: /Study:/ });
+    const radarImage = () => within(studyCard()).getByRole("img", { name: "Nuke radar" });
+
+    it("opens on the stand spot's level, with a level switch that changes the radar and markers", async () => {
+      renderAt("/study", { storage: nukeOnly(), now });
+      await userEvent.click(screen.getByRole("button", { name: "Start" }));
+      expect(screen.getByRole("heading", { name: "Outside — from T Roof" })).toBeInTheDocument();
+
+      const card = within(studyCard());
+      const level = within(card.getByRole("group", { name: "Level" }));
+      expect(level.getByRole("button", { name: "Upper" })).toHaveAttribute("aria-pressed", "true");
+      expect(level.getByRole("button", { name: "Lower" })).toHaveAttribute("aria-pressed", "false");
+      expect(radarImage().getAttribute("src")).toContain("radars/nuke.webp");
+      expect(card.getByTestId("landing-marker")).toBeInTheDocument();
+
+      await userEvent.click(level.getByRole("button", { name: "Lower" }));
+      expect(level.getByRole("button", { name: "Lower" })).toHaveAttribute("aria-pressed", "true");
+      expect(radarImage().getAttribute("src")).toContain("radars/nuke-lower.webp");
+      expect(card.queryByTestId("landing-marker")).not.toBeInTheDocument();
+
+      await userEvent.click(level.getByRole("button", { name: "Upper" }));
+      expect(radarImage().getAttribute("src")).toContain("radars/nuke.webp");
+      expect(card.getByTestId("landing-marker")).toBeInTheDocument();
+    });
+
+    it("opens a smoke whose stand spot is on the lower level on the lower radar", async () => {
+      // No fixture stands on the lower level, so render the card directly with one that does.
+      const item: QueueItem = {
+        map: "nuke",
+        isNew: true,
+        lineup: makeLineup({
+          id: "nuke-lower-from-test",
+          name: "Lower",
+          from: "Test",
+          stand: { x: 0.3, y: 0.6, level: "lower" },
+          land: { x: 0.4, y: 0.7, level: "lower" },
+        }),
+      };
+      render(<StudyCard item={item} sameMapTechniques={[]} onRate={() => undefined} />);
+
+      const level = within(screen.getByRole("group", { name: "Level" }));
+      expect(level.getByRole("button", { name: "Lower" })).toHaveAttribute("aria-pressed", "true");
+      expect(level.getByRole("button", { name: "Upper" })).toHaveAttribute("aria-pressed", "false");
+      expect(screen.getByRole("img", { name: "Nuke radar" }).getAttribute("src")).toContain(
+        "radars/nuke-lower.webp",
+      );
+      expect(screen.getByTestId("landing-marker")).toBeInTheDocument();
+
+      await userEvent.click(screen.getByRole("button", { name: "Skip" }));
+      expect(screen.getByTestId("stand-dot")).toBeInTheDocument();
+      expect(screen.getByTestId("stand-line")).toBeInTheDocument();
+    });
+
+    it("shows a smoke that lands on another level only on that level", async () => {
+      renderAt("/study", { storage: nukeOnly(), now });
+      await userEvent.click(screen.getByRole("button", { name: "Start" }));
+      await answerCard("Got it");
+      expect(screen.getByRole("heading", { name: "Ramp — from Lobby" })).toBeInTheDocument();
+
+      const card = within(studyCard());
+      const level = within(card.getByRole("group", { name: "Level" }));
+      // It opens on the stand spot's level (upper), where the smoke doesn't land.
+      expect(level.getByRole("button", { name: "Upper" })).toHaveAttribute("aria-pressed", "true");
+      expect(radarImage().getAttribute("src")).toContain("radars/nuke.webp");
+      expect(card.queryByTestId("landing-marker")).not.toBeInTheDocument();
+
+      await userEvent.click(level.getByRole("button", { name: "Lower" }));
+      expect(radarImage().getAttribute("src")).toContain("radars/nuke-lower.webp");
+      expect(card.getByTestId("landing-marker")).toBeInTheDocument();
+
+      // After revealing the stand spot, it shows on its own level only, with no line across levels.
+      await userEvent.click(card.getByRole("button", { name: "Skip" }));
+      expect(card.queryByTestId("stand-dot")).not.toBeInTheDocument();
+      expect(card.queryByTestId("stand-line")).not.toBeInTheDocument();
+      expect(card.getByTestId("landing-marker")).toBeInTheDocument();
+
+      await userEvent.click(level.getByRole("button", { name: "Upper" }));
+      expect(radarImage().getAttribute("src")).toContain("radars/nuke.webp");
+      expect(card.getByTestId("stand-dot")).toBeInTheDocument();
+      expect(card.queryByTestId("landing-marker")).not.toBeInTheDocument();
+      expect(card.queryByTestId("stand-line")).not.toBeInTheDocument();
+    });
   });
 
   it("keeps studying when the browser can't save, and says so", async () => {
