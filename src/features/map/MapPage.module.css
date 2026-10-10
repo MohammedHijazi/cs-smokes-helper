@@ -123,3 +123,21 @@
 .empty {
   color: var(--text-muted);
 }
+
+.tabs {
+  display: flex;
+  gap: 8px;
+}
+
+.tabs button {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+}
+
+.tabs button[aria-selected="true"] {
+  border-color: var(--accent);
+  background: var(--surface-2);
+  color: var(--accent);
+}

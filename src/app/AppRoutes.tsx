@@ -12,6 +12,7 @@ export function AppRoutes() {
         <Route index element={<HomePage />} />
         <Route path="maps/:mapId" element={<MapPage />} />
         <Route path="maps/:mapId/smokes/:lineupId" element={<MapPage />} />
+        <Route path="maps/:mapId/executes/:executeId" element={<MapPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
