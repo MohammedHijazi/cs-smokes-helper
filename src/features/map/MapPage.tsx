@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router";
 import { NotFound } from "../../app/NotFound";
 import { findExecute, findLineup, getMapData, useDataVersion } from "../../data";
 import { getMapInfo, hasLevels } from "../../data/maps";
@@ -148,16 +148,23 @@ export function MapPage() {
           </button>
         </div>
         {tab === "smokes" ? (
-          <LineupList
-            mapId={map.id}
-            lineups={visible}
-            search={search}
-            emptyText={
-              data.lineups.length === 0
-                ? "No smokes on this map yet."
-                : "No smokes match these filters."
-            }
-          />
+          <>
+            {import.meta.env.DEV && (
+              <Link to={`/maps/${map.id}/smokes/new${search}`} className={styles.addLink}>
+                + Add smoke
+              </Link>
+            )}
+            <LineupList
+              mapId={map.id}
+              lineups={visible}
+              search={search}
+              emptyText={
+                data.lineups.length === 0
+                  ? "No smokes on this map yet."
+                  : "No smokes match these filters."
+              }
+            />
+          </>
         ) : (
           <ExecuteList
             mapId={map.id}

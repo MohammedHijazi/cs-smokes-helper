@@ -45,3 +45,123 @@
   font-size: 0.85rem;
   color: var(--text-muted);
 }
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.coords {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.form h2 {
+  font-size: 1.3rem;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.field input[type="url"],
+.field input[type="text"],
+.field input[type="number"],
+.field textarea,
+.field select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.row > .field {
+  flex: 1;
+  min-width: 120px;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+}
+
+.counter {
+  justify-self: end;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.technique {
+  margin: 0;
+  font-weight: 600;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--bad);
+}
+
+.notice {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--bad);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--bad) 12%, transparent);
+}
+
+.notice p {
+  margin: 0;
+}
+
+.notice button {
+  justify-self: start;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.primary {
+  padding: 8px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #000;
+  font-weight: 600;
+}
+
+.secondary {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+}

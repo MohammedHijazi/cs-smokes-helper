@@ -60,7 +60,7 @@ export function LevelSwitch({
   return <Segmented label="Level" options={LEVEL_OPTIONS} value={value} onSelect={onSelect} />;
 }
 
-function Segmented<T extends string>({
+export function Segmented<T extends string>({
   label,
   options,
   value,
@@ -68,7 +68,8 @@ function Segmented<T extends string>({
 }: {
   label: string;
   options: readonly (readonly [T, string])[];
-  value: T;
+  /** null: nothing chosen yet (edit forms). */
+  value: T | null;
   onSelect: (value: T) => void;
 }) {
   return (
