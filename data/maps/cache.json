@@ -1,5 +1,196 @@
 {
   "map": "cache",
-  "lineups": [],
+  "lineups": [
+    {
+      "id": "cache-connector-from-t-spawn",
+      "name": "Connector",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "run", "jump": true, "click": "left" },
+      "stand": { "x": 0.8, "y": 0.55 },
+      "land": { "x": 0.265, "y": 0.565 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 14,
+        "end": 48
+      },
+      "notes": "Running jump throw per a written guide (HotSpawn); technique not stated in source (the video). Video chapter: Z connector / Mid smoke T spawn.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-connector-from-outside-a",
+      "name": "Connector",
+      "from": "Outside A",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.56, "y": 0.36 },
+      "land": { "x": 0.285, "y": 0.585 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 48,
+        "end": 67
+      },
+      "notes": "technique not stated in source. Video chapter: Con smoke from outside A.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-highway-from-outside-a",
+      "name": "Highway",
+      "from": "Outside A",
+      "side": "T",
+      "area": "A",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.55, "y": 0.33 },
+      "land": { "x": 0.325, "y": 0.45 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 99,
+        "end": 131
+      },
+      "notes": "Jump throw per a written guide (HotSpawn); technique not stated in source (the video). Video chapter: Highway Waterfall Smoke.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-a-cross-from-a-main",
+      "name": "A Cross",
+      "from": "A Main",
+      "side": "T",
+      "area": "A",
+      "throw": { "movement": "run", "jump": false, "click": "left" },
+      "stand": { "x": 0.47, "y": 0.26 },
+      "land": { "x": 0.38, "y": 0.34 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 131,
+        "end": 151
+      },
+      "notes": "Running throw out of A Main per a written guide (HotSpawn); technique not stated in source (the video). Video chapter: Fast A cross smoke.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-nbk-from-a-long",
+      "name": "NBK",
+      "from": "A Long",
+      "side": "T",
+      "area": "A",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.575, "y": 0.41 },
+      "land": { "x": 0.34, "y": 0.235 },
+      "video": { "url": "https://www.youtube.com/watch?v=uG0feV9uXXw" },
+      "notes": "Stand next to the barrel, aim upward at the marked reference point (video description). technique not stated in source. no timestamps; plays the whole video",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-heaven-from-b-halls",
+      "name": "Heaven",
+      "from": "B Halls",
+      "side": "T",
+      "area": "B",
+      "throw": { "movement": "stand", "jump": false, "click": "left" },
+      "stand": { "x": 0.458, "y": 0.834 },
+      "land": { "x": 0.26, "y": 0.68 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 205,
+        "end": 232
+      },
+      "notes": "Spot and standing throw from Valve's in-game Cache guide; technique not stated in source (the video). The chapter shows the B Con/Tree and Heaven smokes together.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-tree-from-b-halls",
+      "name": "Tree",
+      "from": "B Halls",
+      "side": "T",
+      "area": "B",
+      "throw": { "movement": "stand", "jump": false, "click": "left" },
+      "stand": { "x": 0.478, "y": 0.834 },
+      "land": { "x": 0.2, "y": 0.755 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 205,
+        "end": 232
+      },
+      "notes": "Spot and standing throw from Valve's in-game Cache guide; technique not stated in source (the video). The chapter shows the B Con/Tree and Heaven smokes together.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-a-main-from-ct-truck",
+      "name": "A Main",
+      "from": "CT Truck",
+      "side": "CT",
+      "area": "A",
+      "throw": { "movement": "stand", "jump": false, "click": "left" },
+      "stand": { "x": 0.1925, "y": 0.383 },
+      "land": { "x": 0.46, "y": 0.3 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 263,
+        "end": 321
+      },
+      "notes": "Valve's in-game guide: push into the truck, aim at the middle of the windows, standing throw. technique not stated in source (the video). Video chapter: A main smoke CT.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-b-main-from-heaven",
+      "name": "B Main",
+      "from": "Heaven",
+      "side": "CT",
+      "area": "B",
+      "throw": { "movement": "stand", "jump": false, "click": "left" },
+      "stand": { "x": 0.304, "y": 0.705 },
+      "land": { "x": 0.39, "y": 0.67 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 252,
+        "end": 263
+      },
+      "notes": "Valve's in-game guide: stand in the middle of the panel, aim at the middle of the column, standing throw. technique not stated in source (the video). Video chapter: CT B main smoke.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-garage-from-connector",
+      "name": "Garage",
+      "from": "Connector",
+      "side": "CT",
+      "area": "Mid",
+      "throw": { "movement": "run", "jump": false, "click": "left" },
+      "stand": { "x": 0.28, "y": 0.58 },
+      "land": { "x": 0.57, "y": 0.54 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=acfGjOzhUlw",
+        "start": 232,
+        "end": 252
+      },
+      "notes": "Running throw out of Connector into Mid per a written guide (HotSpawn); technique not stated in source (the video). Video chapter: Ct Mid garage smoke.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "cache-garage-from-highway",
+      "name": "Garage",
+      "from": "Highway",
+      "side": "CT",
+      "area": "Mid",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.325, "y": 0.45 },
+      "land": { "x": 0.6, "y": 0.57 },
+      "video": { "url": "https://www.youtube.com/watch?v=UZkyCNLgMbA" },
+      "notes": "technique not stated in source. no timestamps; plays the whole video",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    }
+  ],
   "executes": []
 }
