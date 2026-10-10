@@ -1,5 +1,5 @@
 import { createDataApi } from "../data/api";
-import type { MapFile, MapId } from "../data/schema";
+import { MAP_IDS, type MapFile, type MapId } from "../data/schema";
 import { makeExecute, makeLineup } from "./fixtures";
 
 const empty = (map: MapId): MapFile => ({ map, lineups: [], executes: [] });
@@ -91,7 +91,15 @@ export const FIXTURE_DATA: Record<MapId, MapFile> = {
   },
 };
 
+let mockedApi: ReturnType<typeof createDataApi> | undefined;
+
 /** Drop-in replacement for src/data/index.ts in page tests. */
 export function mockDataModule() {
-  return { MAP_DATA: FIXTURE_DATA, ...createDataApi(FIXTURE_DATA) };
+  mockedApi = createDataApi(FIXTURE_DATA);
+  return { MAP_DATA: FIXTURE_DATA, ...mockedApi };
+}
+
+/** Undoes edit-mode saves between tests: puts the fixture files back into the mocked data module. */
+export function restoreFixtureData(): void {
+  for (const id of MAP_IDS) mockedApi?.replaceMapFile(id, FIXTURE_DATA[id]);
 }

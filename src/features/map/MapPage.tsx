@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { NotFound } from "../../app/NotFound";
-import { findExecute, findLineup, getMapData } from "../../data";
+import { findExecute, findLineup, getMapData, useDataVersion } from "../../data";
 import { getMapInfo, hasLevels } from "../../data/maps";
 import type { Level, Lineup, Position } from "../../data/schema";
 import {
@@ -39,6 +39,7 @@ export function MapPage() {
   const { mapId = "", lineupId, executeId } = useParams();
   const [params] = useSearchParams();
   const navigate = useNavigate();
+  useDataVersion();
 
   const map = getMapInfo(mapId);
   if (!map) return <NotFound />;

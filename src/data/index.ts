@@ -10,7 +10,10 @@ import type { MapFile, MapId } from "./schema";
 
 export type { LocatedLineup } from "./api";
 
-/** The bundled data. It is validated in CI (npm run validate), so it is trusted here. */
+/**
+ * The bundled data as built. It is validated in CI (npm run validate), so it is trusted here.
+ * Edit mode (dev only) may swap maps later with replaceMapFile; always read through getMapData.
+ */
 export const MAP_DATA: Record<MapId, MapFile> = {
   ancient: ancient as unknown as MapFile,
   anubis: anubis as unknown as MapFile,
@@ -21,4 +24,5 @@ export const MAP_DATA: Record<MapId, MapFile> = {
   nuke: nuke as unknown as MapFile,
 };
 
-export const { getMapData, findLineup, findExecute, allLineups } = createDataApi(MAP_DATA);
+export const { getMapData, findLineup, findExecute, allLineups, replaceMapFile, useDataVersion } =
+  createDataApi(MAP_DATA);

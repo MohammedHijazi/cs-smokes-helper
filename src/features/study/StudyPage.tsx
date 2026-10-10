@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { useProgress } from "../../app/progress";
-import { allLineups, getMapData } from "../../data";
+import { allLineups, getMapData, useDataVersion } from "../../data";
 import { MAPS } from "../../data/maps";
 import { MAP_IDS, SIDES, type MapId, type Side } from "../../data/schema";
 import {
@@ -31,6 +31,7 @@ function toggled<T>(list: readonly T[], value: T, order: readonly T[]): T[] {
 }
 
 export function StudyPage() {
+  useDataVersion();
   const { progress, today, answer, updateSettings } = useProgress();
   const [session, setSession] = useState<Session | null>(null);
   const candidates = allLineups();

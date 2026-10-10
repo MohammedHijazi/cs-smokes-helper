@@ -1,3 +1,4 @@
+import { act, renderHook } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { makeExecute, makeLineup, makeMapFile } from "../test/fixtures";
 import { createDataApi } from "./api";
@@ -30,5 +31,26 @@ describe("createDataApi", () => {
       "mirage/mirage-a",
       "mirage/mirage-b",
     ]);
+  });
+});
+
+describe("replaceMapFile", () => {
+  it("serves the new file everywhere, leaving the original data untouched", () => {
+    const api = createDataApi(data);
+    const next = makeMapFile("mirage", [makeLineup({ id: "mirage-c" })]);
+    api.replaceMapFile("mirage", next);
+    expect(api.getMapData("mirage")).toBe(next);
+    expect(api.findLineup("mirage", "mirage-c")?.id).toBe("mirage-c");
+    expect(api.findLineup("mirage", "mirage-a")).toBeUndefined();
+    expect(api.allLineups().map(({ lineup }) => lineup.id)).toEqual(["ancient-a", "mirage-c"]);
+    expect(data.mirage.lineups.map((lineup) => lineup.id)).toEqual(["mirage-a", "mirage-b"]);
+  });
+
+  it("re-renders components that use useDataVersion", () => {
+    const api = createDataApi(data);
+    const { result } = renderHook(() => api.useDataVersion());
+    expect(result.current).toBe(0);
+    act(() => api.replaceMapFile("ancient", makeMapFile("ancient")));
+    expect(result.current).toBe(1);
   });
 });

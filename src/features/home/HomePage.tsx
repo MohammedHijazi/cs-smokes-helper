@@ -1,12 +1,13 @@
 import { Link } from "react-router";
 import { useProgress } from "../../app/progress";
-import { allLineups, getMapData } from "../../data";
+import { allLineups, getMapData, useDataVersion } from "../../data";
 import { MAPS } from "../../data/maps";
 import { assetUrl } from "../../lib/assets";
 import { knownCount, newAllowance, studyCounts } from "../../lib/scheduler";
 import styles from "./HomePage.module.css";
 
 export function HomePage() {
+  useDataVersion();
   const { progress, today } = useProgress();
   const { due, fresh } = studyCounts({
     candidates: allLineups(),

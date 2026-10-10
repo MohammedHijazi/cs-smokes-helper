@@ -1,12 +1,17 @@
-import { fireEvent, screen, within } from "@testing-library/react";
+import { act, fireEvent, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { replaceMapFile } from "../../data";
+import { restoreFixtureData } from "../../test/fixtureData";
+import { makeLineup, makeMapFile } from "../../test/fixtures";
 import { renderAt } from "../../test/render";
 
 vi.mock("../../data", async () => (await import("../../test/fixtureData")).mockDataModule());
 vi.mock("../smoke/VideoPlayer", () => ({
   VideoPlayer: ({ title }: { title: string }) => <div data-testid="video">{title}</div>,
 }));
+
+afterEach(() => restoreFixtureData());
 
 const smokeRows = () => within(screen.getByRole("list", { name: "Smokes" })).getAllByRole("link");
 const currentLocation = () => screen.getByTestId("location").textContent;
@@ -28,6 +33,19 @@ function mockRadarSize(size: number) {
 }
 
 describe("MapPage", () => {
+  it("re-renders with a map file that edit mode saved", () => {
+    renderAt("/maps/ancient");
+    expect(screen.getByText("No smokes on this map yet.")).toBeInTheDocument();
+    act(() =>
+      replaceMapFile(
+        "ancient",
+        makeMapFile("ancient", [makeLineup({ id: "ancient-cave-from-t-spawn", name: "Cave" })]),
+      ),
+    );
+    expect(smokeRows()).toHaveLength(1);
+    expect(smokeRows()[0]).toHaveTextContent("Cave");
+  });
+
   it("shows every smoke on the radar and in the list", () => {
     renderAt("/maps/mirage");
     expect(screen.getByRole("heading", { name: "Mirage", level: 1 })).toBeInTheDocument();
