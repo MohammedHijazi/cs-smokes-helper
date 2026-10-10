@@ -1,8 +1,11 @@
 // @vitest-environment node
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 import { check } from "prettier";
 import { describe, expect, it } from "vitest";
 import { makeExecute, makeLineup, makeMapFile } from "../src/test/fixtures";
 import { formatMapFile } from "./format-map";
+import { DATA_DIR } from "./load-data";
 
 const LONG_URL =
   "https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=PLabcdefghijklmnopqrstuvwxyz0123";
@@ -53,5 +56,16 @@ describe("formatMapFile", () => {
   it("passes prettier --check with the repo's config", async () => {
     const text = await formatMapFile(makeMapFile("mirage", [makeLineup()], [makeExecute()]));
     expect(await check(text, { parser: "json", printWidth: 100 })).toBe(true);
+  });
+});
+
+describe("data files", () => {
+  const names = readdirSync(DATA_DIR).filter((name) => name.endsWith(".json"));
+
+  it.each(names)("%s uses the canonical layout", async (name) => {
+    const text = readFileSync(join(DATA_DIR, name), "utf8");
+    expect(text, `${name} isn't in the canonical layout — run npm run format-data`).toBe(
+      await formatMapFile(JSON.parse(text)),
+    );
   });
 });

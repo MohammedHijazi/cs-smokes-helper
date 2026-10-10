@@ -10,11 +10,7 @@
       "throw": { "movement": "walk", "jump": true, "click": "left" },
       "stand": { "x": 0.7, "y": 0.31 },
       "land": { "x": 0.405, "y": 0.455 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=pioMCpV7IR4",
-        "start": 2,
-        "end": 21
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=pioMCpV7IR4", "start": 2, "end": 21 },
       "notes": "Stand left of the bin. Sources differ on movement: tap D before the jump throw (BLAST.tv), or crouch-walk a few steps (CSNADES, Profilerr). Aim at the top right corner of the window door frame.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -28,11 +24,7 @@
       "throw": { "movement": "stand", "jump": false, "click": "left" },
       "stand": { "x": 0.7, "y": 0.31 },
       "land": { "x": 0.625, "y": 0.455 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=jx6HsOkw7pU",
-        "start": 40,
-        "end": 64
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=jx6HsOkw7pU", "start": 40, "end": 64 },
       "notes": "Stand on top of the bin. Aim at the top right corner of the right antenna.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -46,11 +38,7 @@
       "throw": { "movement": "stand", "jump": true, "click": "left" },
       "stand": { "x": 0.7, "y": 0.31 },
       "land": { "x": 0.5, "y": 0.535 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=pioMCpV7IR4",
-        "start": 21,
-        "end": 40
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=pioMCpV7IR4", "start": 21, "end": 40 },
       "notes": "Aim at the white line near the top of the hanging rug.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -64,11 +52,7 @@
       "throw": { "movement": "stand", "jump": true, "click": "left" },
       "stand": { "x": 0.76, "y": 0.64 },
       "land": { "x": 0.39, "y": 0.8 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=pioMCpV7IR4",
-        "start": 64,
-        "end": 81
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=pioMCpV7IR4", "start": 64, "end": 81 },
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
     },
@@ -81,11 +65,7 @@
       "throw": { "movement": "stand", "jump": false, "click": "left" },
       "stand": { "x": 0.76, "y": 0.64 },
       "land": { "x": 0.53, "y": 0.63 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=MJ-dtTYTUS8",
-        "start": 178,
-        "end": 188
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=MJ-dtTYTUS8", "start": 178, "end": 188 },
       "notes": "Aim up at the gap in the scaffolding. No jump needed.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -99,11 +79,7 @@
       "throw": { "movement": "stand", "jump": false, "click": "left" },
       "stand": { "x": 0.76, "y": 0.64 },
       "land": { "x": 0.42, "y": 0.61 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=MJ-dtTYTUS8",
-        "start": 188,
-        "end": 198
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=MJ-dtTYTUS8", "start": 188, "end": 198 },
       "notes": "Turn 180 degrees from the Stairs spot, then throw. No jump needed.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -117,11 +93,7 @@
       "throw": { "movement": "stand", "jump": true, "click": "left" },
       "stand": { "x": 0.585, "y": 0.215 },
       "land": { "x": 0.255, "y": 0.38 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=Q4Dwg9Z0wZ0",
-        "start": 256,
-        "end": 290
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=Q4Dwg9Z0wZ0", "start": 256, "end": 290 },
       "notes": "Same throw spot as Market Door and B Short, in the corner past the TV room. Aim up at the top of the tower.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -135,11 +107,7 @@
       "throw": { "movement": "stand", "jump": true, "click": "left" },
       "stand": { "x": 0.585, "y": 0.215 },
       "land": { "x": 0.18, "y": 0.38 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=Q4Dwg9Z0wZ0",
-        "start": 290,
-        "end": 335
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=Q4Dwg9Z0wZ0", "start": 290, "end": 335 },
       "notes": "Same throw spot as Market Window. Aim at a window on the tower.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -153,11 +121,7 @@
       "throw": { "movement": "stand", "jump": false, "click": "left" },
       "stand": { "x": 0.585, "y": 0.215 },
       "land": { "x": 0.39, "y": 0.295 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=xPCYPKFG44E",
-        "start": 652,
-        "end": 662
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=xPCYPKFG44E", "start": 652, "end": 662 },
       "notes": "Same throw spot as Market Window and Door. Aim at the left side of the building. Left click without a jump is from one source only (esports.net).",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -171,11 +135,7 @@
       "throw": { "movement": "stand", "jump": true, "click": "left" },
       "stand": { "x": 0.68, "y": 0.46 },
       "land": { "x": 0.42, "y": 0.475 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=xPCYPKFG44E",
-        "start": 206,
-        "end": 219
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=xPCYPKFG44E", "start": 206, "end": 219 },
       "notes": "technique not stated in source. Thrown from the boxes at Top Mid.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -189,11 +149,7 @@
       "throw": { "movement": "stand", "jump": false, "click": "left" },
       "stand": { "x": 0.6, "y": 0.78 },
       "land": { "x": 0.728, "y": 0.648 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=xPCYPKFG44E",
-        "start": 931,
-        "end": 939
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=xPCYPKFG44E", "start": 931, "end": 939 },
       "notes": "technique not stated in source. Thrown from the A site toward the far end of the T ramp (csdb.gg).",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
@@ -207,11 +163,7 @@
       "throw": { "movement": "stand", "jump": true, "click": "left" },
       "stand": { "x": 0.27, "y": 0.44 },
       "land": { "x": 0.37, "y": 0.21 },
-      "video": {
-        "url": "https://www.youtube.com/watch?v=xPCYPKFG44E",
-        "start": 1041,
-        "end": 1048
-      },
+      "video": { "url": "https://www.youtube.com/watch?v=xPCYPKFG44E", "start": 1041, "end": 1048 },
       "notes": "technique not stated in source. Thrown from outside Market toward B Apartments; Profilerr says to jump and move sideways while it flies.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
