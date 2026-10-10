@@ -24,7 +24,8 @@ export function useYouTubePlayer(
   // The latest callbacks, read by the player's events without recreating the player.
   const callbacks = useRef({ onReady, onEnded });
   callbacks.current = { onReady, onEnded };
-  const vars = JSON.stringify(playerVars);
+  const varsRef = useRef(playerVars);
+  varsRef.current = playerVars;
 
   useEffect(() => {
     let cancelled = false;
@@ -49,7 +50,7 @@ export function useYouTubePlayer(
           videoId,
           width: "100%",
           height: "100%",
-          playerVars: JSON.parse(vars) as Record<string, string | number>,
+          playerVars: varsRef.current,
           events: {
             onReady: ({ target }) => {
               if (cancelled) return;
@@ -76,7 +77,7 @@ export function useYouTubePlayer(
       cancelled = true;
       teardown();
     };
-  }, [host, videoId, vars]);
+  }, [host, videoId]);
 
   return { status, player };
 }
