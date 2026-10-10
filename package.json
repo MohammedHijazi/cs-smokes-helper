@@ -17,6 +17,7 @@
     "validate": "tsx scripts/validate-data.ts",
     "format-data": "tsx scripts/format-data.ts",
     "check-videos": "tsx scripts/check-videos.ts",
+    "check-bundle": "tsx scripts/check-bundle.ts",
     "radars": "tsx scripts/make-radars.ts",
     "icons": "tsx scripts/make-icons.ts",
     "preview-markers": "tsx scripts/preview-markers.ts"
