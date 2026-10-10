@@ -1,5 +1,222 @@
 {
   "map": "ancient",
-  "lineups": [],
+  "lineups": [
+    {
+      "id": "ancient-red-room-from-t-spawn",
+      "name": "Red Room",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "run", "jump": true, "click": "left" },
+      "stand": { "x": 0.505, "y": 0.865 },
+      "land": { "x": 0.475, "y": 0.39 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 6,
+        "end": 65
+      },
+      "notes": "W + jumpthrow from T spawn (Refrag). Aim at the dark gap between the bricks, top right of the door (Refrag). The chapter title is plural, so the clip may show several spawn spots.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-mid-donut-from-t-spawn",
+      "name": "Mid Donut",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "run", "jump": true, "click": "left" },
+      "stand": { "x": 0.435, "y": 0.855 },
+      "land": { "x": 0.4, "y": 0.455 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 65,
+        "end": 123
+      },
+      "notes": "From the left corner of T Spawn, behind the river; W + jump throw. Aim at the edge of the building in front (CS2Pulse, Tradeit). The chapter title is plural, so the clip may show other spots too.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-heaven-from-t-spawn",
+      "name": "Heaven",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.5, "y": 0.822 },
+      "land": { "x": 0.54, "y": 0.57 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 162,
+        "end": 209
+      },
+      "notes": "Standing jump throw, left click (cs2util lists it as the Window smoke from T Spawn; Refrag: jumpthrow from the same spawn as Red). The exact spot is not named in the video chapter.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-ct-lane-from-a-main",
+      "name": "CT Lane",
+      "from": "A Main",
+      "side": "T",
+      "area": "A",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.185, "y": 0.365 },
+      "land": { "x": 0.36, "y": 0.2 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 278,
+        "end": 319
+      },
+      "notes": "Jump throw from the corner outside A Main; the CT, Donut and Temple smokes can all be thrown from this corner (BLAST). CS2Pulse throws a CT smoke from the Donut door instead. Technique is from the articles, not the video.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-a-donut-from-a-main",
+      "name": "A Donut",
+      "from": "A Main",
+      "side": "T",
+      "area": "A",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.175, "y": 0.375 },
+      "land": { "x": 0.305, "y": 0.355 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 319,
+        "end": 341
+      },
+      "notes": "Jump throw from the left side of the stairs at the A Main entrance; aim at the gap in the hollowed wall (CS2Pulse, Tradeit). Refrag lists W + jumpthrow from the same corner as Temple.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-temple-from-a-main",
+      "name": "Temple",
+      "from": "A Main",
+      "side": "T",
+      "area": "A",
+      "throw": { "movement": "run", "jump": true, "click": "left" },
+      "stand": { "x": 0.18, "y": 0.37 },
+      "land": { "x": 0.305, "y": 0.17 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 341,
+        "end": 370
+      },
+      "notes": "From the left corner of A Main: crouch first, then W + jump throw; aim at the top right of the leaf (CS2Pulse, Tradeit). Refrag lists a plain jumpthrow aimed at the thin gap between the leaves.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-b-long-from-t-spawn",
+      "name": "B Long",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "B",
+      "throw": { "movement": "run", "jump": true, "click": "left" },
+      "stand": { "x": 0.433, "y": 0.84 },
+      "land": { "x": 0.73, "y": 0.48 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 394,
+        "end": 417
+      },
+      "notes": "Run two steps, then jump throw (cs2util, CS2Pulse); a hard lineup. cs2util: setpos -735.97 -2135.97 -104.40; setang -35.39 50.53. Spot is from the articles, not the video chapter.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-b-short-from-ruins",
+      "name": "B Short",
+      "from": "Ruins",
+      "side": "T",
+      "area": "B",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.822, "y": 0.712 },
+      "land": { "x": 0.65, "y": 0.26 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 417,
+        "end": 437
+      },
+      "notes": "Stand still and jump throw with left click; blocks CT rotations through Mid and CT Spawn (cs2util). cs2util: setpos 1255.97 -1479.84 89.95; setang -6.10 109.20. Spot is from the article, not the video chapter.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-cave-from-t-spawn",
+      "name": "Cave",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "B",
+      "throw": { "movement": "walk", "jump": true, "click": "left" },
+      "stand": { "x": 0.47, "y": 0.88 },
+      "land": { "x": 0.62, "y": 0.52 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=twNYpqsrKHE",
+        "start": 437,
+        "end": 459
+      },
+      "notes": "Two-step walking jump throw from the right side of the pillar under the bridge in T Spawn (CS2Pulse, Tradeit); mouse button not stated, left assumed. Another CS2Pulse page throws a Cave smoke from Water instead.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-cheetah-from-t-spawn",
+      "name": "Cheetah",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "B",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.445, "y": 0.9 },
+      "land": { "x": 0.6, "y": 0.565 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=dutDQFa4cxA",
+        "start": 19,
+        "end": 29
+      },
+      "notes": "Jump throw from the back left corner of T Spawn; aim at the tip of the building (CS2Pulse, Tradeit). Movement before the jump is not stated in the sources, so technique not stated in source.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-elbow-from-ct-spawn",
+      "name": "Elbow",
+      "from": "CT Spawn",
+      "side": "CT",
+      "area": "Mid",
+      "throw": { "movement": "walk", "jump": true, "click": "left" },
+      "stand": { "x": 0.477, "y": 0.091 },
+      "land": { "x": 0.385, "y": 0.55 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=d6ovxD9yQN0",
+        "start": 74,
+        "end": 94
+      },
+      "notes": "Instant smoke from CT spawn 5: Shift + W (a tap of W, not held), then jump throw (MisterT, cs2util). Video description: setpos -512 1696 88.76; setang -26.77 -101.74.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "ancient-b-doors-from-ct-spawn",
+      "name": "B Doors",
+      "from": "CT Spawn",
+      "side": "CT",
+      "area": "B",
+      "throw": { "movement": "run", "jump": true, "click": "left" },
+      "stand": { "x": 0.51, "y": 0.09 },
+      "land": { "x": 0.805, "y": 0.43 },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=xEhS-AmIzIw",
+        "start": 424,
+        "end": 433
+      },
+      "notes": "Instant smoke from CT spawn: press W for two steps, then left-click jump throw (cs2util, spawn C). The video does not say which spawn it uses, so technique not stated in source.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    }
+  ],
   "executes": []
 }
