@@ -23,6 +23,9 @@ interface ServerBody {
   message?: string;
 }
 
+export const CHANGED_MESSAGE =
+  "This map changed outside this page (another tab, a hand edit or git). Reload to get the latest version.";
+
 /** Problems in `next` by the checks behind npm run validate, with the other maps as they are now. */
 export function checkLocally(map: MapId, next: MapFile): FieldError[] {
   const fileName = `${map}.json`;
@@ -73,8 +76,7 @@ export async function saveMap(map: MapId, next: MapFile): Promise<SaveOutcome> {
     return {
       ok: false,
       kind: "changed",
-      message:
-        "This map changed outside this page (another tab, a hand edit or git). Reload to get the latest version.",
+      message: CHANGED_MESSAGE,
     };
   }
   if (response.status === 500) {

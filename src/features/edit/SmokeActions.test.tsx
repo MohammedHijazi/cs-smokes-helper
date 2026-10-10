@@ -76,6 +76,7 @@ describe("Mark reviewed", () => {
     renderAt("/maps/mirage/smokes/mirage-window-from-t-spawn", { now: NOW });
     await userEvent.click(await button("Mark reviewed"));
     expect(await screen.findByText(CHANGED)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reload" })).toBeInTheDocument();
     expect(currentLocation()).toBe("/maps/mirage/smokes/mirage-window-from-t-spawn");
   });
 });

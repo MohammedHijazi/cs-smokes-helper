@@ -11,7 +11,7 @@ import { MapFrame } from "../map/MapFrame";
 import { FormNotice, useLeaveWarning, type Notice } from "./formParts";
 import { newLineupId, takenIds, upsertLineup } from "./mapEdits";
 import { PlacementRadar, type Spot } from "./PlacementRadar";
-import { saveMap } from "./saveClient";
+import { CHANGED_MESSAGE, saveMap } from "./saveClient";
 import { SmokeFields } from "./SmokeFields";
 import {
   draftFromLineup,
@@ -69,6 +69,7 @@ function SmokeEditor({
         }),
   );
   const [initial] = useState(draft);
+  const [openedAs] = useState(original);
   const [active, setActive] = useState<Spot>("land");
   const [level, setLevel] = useState<Level>(original?.land.level ?? filters.level);
   const [errors, setErrors] = useState<DraftErrors>({});
@@ -89,6 +90,12 @@ function SmokeEditor({
   async function save(event: FormEvent) {
     event.preventDefault();
     if (inFlight.current) return;
+    if (original && JSON.stringify(original) !== JSON.stringify(openedAs)) {
+      // A hand edit or git changed this item while the form was open (Fast Refresh keeps the form).
+      setErrors({});
+      setNotice({ message: CHANGED_MESSAGE, reload: true });
+      return;
+    }
     const built = lineupFromDraft(draft, { id, original, today });
     if (!built.ok) {
       setErrors(built.errors);

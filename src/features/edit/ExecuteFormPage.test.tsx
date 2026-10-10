@@ -1,9 +1,9 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { replaceMapFile } from "../../data";
 import { mockEditServer } from "../../test/editHelpers";
-import { restoreFixtureData } from "../../test/fixtureData";
+import { FIXTURE_DATA, restoreFixtureData } from "../../test/fixtureData";
 import { makeLineup, makeMapFile } from "../../test/fixtures";
 import { renderAt } from "../../test/render";
 
@@ -114,6 +114,28 @@ describe("Edit execute", () => {
       side: "T",
       lineupIds: ["mirage-ct-from-t-ramp", "mirage-window-from-t-spawn"],
     });
+  });
+
+  it("refuses to save over a hand edit to the same execute", async () => {
+    const server = mockEditServer();
+    const user = userEvent.setup();
+    await openForm("/maps/mirage/executes/mirage-a-execute/edit");
+    await user.type(screen.getByLabelText("Name"), "!");
+    act(() =>
+      replaceMapFile("mirage", {
+        ...FIXTURE_DATA.mirage,
+        executes: FIXTURE_DATA.mirage.executes.map((execute) => ({
+          ...execute,
+          notes: "Edited by hand.",
+        })),
+      }),
+    );
+    await user.click(screen.getByRole("button", { name: "Save" }));
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "This map changed outside this page (another tab, a hand edit or git). Reload to get the latest version.",
+    );
+    expect(screen.getByRole("button", { name: "Reload" })).toBeInTheDocument();
+    expect(server.fetch).not.toHaveBeenCalled();
   });
 
   it("asks before a side change removes smokes", async () => {

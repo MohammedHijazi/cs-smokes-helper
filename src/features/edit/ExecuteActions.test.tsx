@@ -49,6 +49,20 @@ describe("ExecuteActions", () => {
     expect(server.fetch).not.toHaveBeenCalled();
   });
 
+  it("shows a Reload button when the map changed on disk, and stays", async () => {
+    mockEditServer(() => ({ status: 409, json: { error: "changed" } }));
+    vi.spyOn(window, "confirm").mockReturnValue(true);
+    renderAt("/maps/mirage/executes/mirage-a-execute");
+    await userEvent.click(await deleteButton());
+    expect(
+      await screen.findByText(
+        "This map changed outside this page (another tab, a hand edit or git). Reload to get the latest version.",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Reload" })).toBeInTheDocument();
+    expect(currentLocation()).toBe("/maps/mirage/executes/mirage-a-execute");
+  });
+
   it("has no execute edit controls outside dev", async () => {
     // Warm the lazy edit component up with DEV on, so a missing guard would render it at once.
     const dev = renderAt("/maps/mirage/executes/mirage-a-execute");

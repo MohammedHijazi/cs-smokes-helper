@@ -27,7 +27,7 @@ import {
 } from "./executeDraft";
 import { FieldErrors, FormNotice, useLeaveWarning, type Notice } from "./formParts";
 import { idsOnSide, newExecuteId, takenIds, upsertExecute } from "./mapEdits";
-import { saveMap } from "./saveClient";
+import { CHANGED_MESSAGE, saveMap } from "./saveClient";
 import styles from "./Edit.module.css";
 
 const SIDE_OPTIONS = [
@@ -74,6 +74,7 @@ function ExecuteEditor({
       : emptyExecuteDraft(filters.side === "all" ? "T" : filters.side),
   );
   const [initial] = useState(draft);
+  const [openedAs] = useState(original);
   const [level, setLevel] = useState<Level>(filters.level);
   const [errors, setErrors] = useState<ExecuteErrors>({});
   const [notice, setNotice] = useState<Notice | null>(null);
@@ -113,6 +114,12 @@ function ExecuteEditor({
   async function save(event: FormEvent) {
     event.preventDefault();
     if (inFlight.current) return;
+    if (original && JSON.stringify(original) !== JSON.stringify(openedAs)) {
+      // A hand edit or git changed this item while the form was open (Fast Refresh keeps the form).
+      setErrors({});
+      setNotice({ message: CHANGED_MESSAGE, reload: true });
+      return;
+    }
     const next = upsertExecute(data, executeFromDraft(draft, id));
     inFlight.current = true;
     setSaving(true);

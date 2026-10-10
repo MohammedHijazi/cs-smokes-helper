@@ -20,16 +20,21 @@ export interface ExecuteActionsProps {
 export function ExecuteActions({ map, execute, search, listHref }: ExecuteActionsProps) {
   const navigate = useNavigate();
   const [message, setMessage] = useState<string | null>(null);
+  const [reload, setReload] = useState(false);
   const [busy, setBusy] = useState(false);
 
   async function remove() {
     if (!window.confirm(`Delete the execute '${execute.name}'? Its smokes are kept.`)) return;
     setBusy(true);
     setMessage(null);
+    setReload(false);
     const outcome = await saveMap(map.id, deleteExecute(getMapData(map.id), execute.id));
     setBusy(false);
     if (outcome.ok) navigate(listHref);
-    else setMessage(describeProblem(outcome));
+    else {
+      setMessage(describeProblem(outcome));
+      setReload(outcome.kind === "changed");
+    }
   }
 
   return (
@@ -39,6 +44,11 @@ export function ExecuteActions({ map, execute, search, listHref }: ExecuteAction
         Delete
       </button>
       {message && <p role="status">{message}</p>}
+      {reload && (
+        <button type="button" onClick={() => window.location.reload()}>
+          Reload
+        </button>
+      )}
     </div>
   );
 }

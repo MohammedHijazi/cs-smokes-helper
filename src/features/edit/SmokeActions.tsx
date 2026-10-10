@@ -28,15 +28,20 @@ export function SmokeActions({ map, lineup, list, search }: SmokeActionsProps) {
   const navigate = useNavigate();
   const { today } = useProgress();
   const [message, setMessage] = useState<string | null>(null);
+  const [reload, setReload] = useState(false);
   const [busy, setBusy] = useState(false);
 
   async function save(next: MapFile, onSaved: () => void) {
     setBusy(true);
     setMessage(null);
+    setReload(false);
     const outcome = await saveMap(map.id, next);
     setBusy(false);
     if (outcome.ok) onSaved();
-    else setMessage(describeProblem(outcome));
+    else {
+      setMessage(describeProblem(outcome));
+      setReload(outcome.kind === "changed");
+    }
   }
 
   function markReviewedAndGoOn() {
@@ -63,6 +68,11 @@ export function SmokeActions({ map, lineup, list, search }: SmokeActionsProps) {
         Delete
       </button>
       {message && <p role="status">{message}</p>}
+      {reload && (
+        <button type="button" onClick={() => window.location.reload()}>
+          Reload
+        </button>
+      )}
     </div>
   );
 }

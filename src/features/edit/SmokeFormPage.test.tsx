@@ -1,6 +1,7 @@
-import { screen, waitFor, within } from "@testing-library/react";
+import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { replaceMapFile } from "../../data";
 import {
   clickRadar,
   mockEditServer,
@@ -241,6 +242,48 @@ describe("saving", () => {
     );
     expect(screen.getByRole("button", { name: "Reload" })).toBeInTheDocument();
     expect(screen.getByLabelText("Name")).toHaveValue("Window box");
+  });
+
+  it("refuses to save over a hand edit to the same smoke", async () => {
+    const server = mockEditServer();
+    const user = userEvent.setup();
+    await renameWindow(user);
+    act(() =>
+      replaceMapFile("mirage", {
+        ...FIXTURE_DATA.mirage,
+        lineups: FIXTURE_DATA.mirage.lineups.map((lineup, i) =>
+          i === 0 ? { ...lineup, notes: "Edited by hand." } : lineup,
+        ),
+      }),
+    );
+    await user.click(saveButton());
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "This map changed outside this page (another tab, a hand edit or git). Reload to get the latest version.",
+    );
+    expect(screen.getByRole("button", { name: "Reload" })).toBeInTheDocument();
+    expect(server.fetch).not.toHaveBeenCalled();
+    expect(screen.getByLabelText("Name")).toHaveValue("Window box");
+  });
+
+  it("keeps a hand edit to a different smoke", async () => {
+    const server = mockEditServer();
+    const user = userEvent.setup();
+    await renameWindow(user);
+    act(() =>
+      replaceMapFile("mirage", {
+        ...FIXTURE_DATA.mirage,
+        lineups: FIXTURE_DATA.mirage.lineups.map((lineup, i) =>
+          i === 1 ? { ...lineup, notes: "Edited by hand." } : lineup,
+        ),
+      }),
+    );
+    await user.click(saveButton());
+    await waitFor(() =>
+      expect(currentLocation()).toBe("/maps/mirage/smokes/mirage-window-from-t-spawn"),
+    );
+    const sent = server.sent().file.lineups;
+    expect(sent[0].name).toBe("Window box");
+    expect(sent[1].notes).toBe("Edited by hand.");
   });
 
   it("says when the dev server isn't running", async () => {
