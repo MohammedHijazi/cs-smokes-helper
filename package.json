@@ -15,6 +15,7 @@
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
     "validate": "tsx scripts/validate-data.ts",
+    "format-data": "tsx scripts/format-data.ts",
     "check-videos": "tsx scripts/check-videos.ts",
     "radars": "tsx scripts/make-radars.ts",
     "icons": "tsx scripts/make-icons.ts",
