@@ -1,5 +1,204 @@
 {
   "map": "nuke",
-  "lineups": [],
+  "lineups": [
+    {
+      "id": "nuke-outside-wall-mini-side-from-t-spawn",
+      "name": "Outside Wall (Mini Side)",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.365, "y": 0.543, "level": "upper" },
+      "land": { "x": 0.595, "y": 0.665, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=i9a8FcZ63Es",
+        "start": 92,
+        "end": 150
+      },
+      "notes": "Stand in front of the yellow line, off the staircase. Aim at the middle of the lamp above Silo; it lands right outside Mini. Pair with the Garage-side smoke (a teammate drops you a second smoke).",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-outside-wall-garage-side-from-t-spawn",
+      "name": "Outside Wall (Garage Side)",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.365, "y": 0.543, "level": "upper" },
+      "land": { "x": 0.672, "y": 0.658, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=i9a8FcZ63Es",
+        "start": 137,
+        "end": 160
+      },
+      "notes": "Same spot as the Mini-side smoke. Aim down to the right at the little guardrail, as low as where it meets the building; standing just left of the corner is easier to line up. Lands near Garage at about the same time.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-mini-waterfall-from-t-spawn",
+      "name": "Mini Waterfall",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.365, "y": 0.543, "level": "upper" },
+      "land": { "x": 0.578, "y": 0.632, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=Ctyv4JTeZRo",
+        "start": 103,
+        "end": 138
+      },
+      "notes": "Same spot as the wall smokes; aim up and a little left of the light. The exact point changes with resolution, so check it in practice. Lands on top of Mini and falls down, covering all of Mini.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-heaven-from-t-spawn",
+      "name": "Heaven",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "A",
+      "throw": { "movement": "run", "jump": true, "click": "left" },
+      "stand": { "x": 0.372, "y": 0.54, "level": "upper" },
+      "land": { "x": 0.648, "y": 0.47, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=db7rgJFkY0Y",
+        "start": 132,
+        "end": 174
+      },
+      "notes": "Run forward and jump throw when you reach the marked point; the smoke bounces off the wall and into Heaven. The aim point is only shown in the video.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-squeaky-door-vent-lurk-from-t-spawn",
+      "name": "Squeaky Door (Vent Lurk)",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "A",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.368, "y": 0.533, "level": "upper" },
+      "land": { "x": 0.538, "y": 0.588, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=i9a8FcZ63Es",
+        "start": 318,
+        "end": 342
+      },
+      "notes": "Break the windows every round first; the glass affects the lineup. Tuck into the left corner, look at the little power box, go up and right to the second piece of siding. It goes through the vent and lands in front of the door.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-lockers-from-t-spawn",
+      "name": "Lockers",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "run", "jump": true, "click": "left" },
+      "stand": { "x": 0.372, "y": 0.545, "level": "upper" },
+      "land": { "x": 0.652, "y": 0.52, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=db7rgJFkY0Y",
+        "start": 174,
+        "end": 208
+      },
+      "notes": "Aim at the scorpio, run forward, and jump throw at the marked point; it bounces off the wall into Lockers. Pairs with the Heaven smoke and a Top Main smoke for full outside control.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-garage-from-t-spawn",
+      "name": "Garage",
+      "from": "T Spawn",
+      "side": "T",
+      "area": "Mid",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.372, "y": 0.552, "level": "upper" },
+      "land": { "x": 0.705, "y": 0.675, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=db7rgJFkY0Y",
+        "start": 102,
+        "end": 132
+      },
+      "notes": "Stand in the middle, aim at the marked spot and jump throw. It lands in the middle of Garage and blocks it. Easy, but rarely used by pros.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-ramp-from-trophy",
+      "name": "Ramp",
+      "from": "Trophy",
+      "side": "T",
+      "area": "B",
+      "throw": { "movement": "run", "jump": false, "click": "left" },
+      "stand": { "x": 0.508, "y": 0.46, "level": "upper" },
+      "land": { "x": 0.558, "y": 0.428, "level": "lower" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=Ctyv4JTeZRo",
+        "start": 337,
+        "end": 372
+      },
+      "notes": "Run out through Trophy, aim at the right side of the no-smoking sign on the angled wall and throw while running. Smokes the entrance to Hell. Click type not stated in the source; left click assumed.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-squeaky-door-resmoke-from-heaven",
+      "name": "Squeaky Door Resmoke",
+      "from": "Heaven",
+      "side": "CT",
+      "area": "A",
+      "throw": { "movement": "stand", "jump": true, "click": "left" },
+      "stand": { "x": 0.635, "y": 0.47, "level": "upper" },
+      "land": { "x": 0.53, "y": 0.575, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=db7rgJFkY0Y",
+        "start": 403,
+        "end": 425
+      },
+      "notes": "Re-smokes a broken door. The smoke slides along the door without spreading, so Ts get no lurk smoke. The aim point is only shown in the video.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-hut-from-heaven",
+      "name": "Hut",
+      "from": "Heaven",
+      "side": "CT",
+      "area": "A",
+      "throw": { "movement": "stand", "jump": false, "click": "left" },
+      "stand": { "x": 0.66, "y": 0.455, "level": "upper" },
+      "land": { "x": 0.54, "y": 0.548, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=mORm-3oZVXM",
+        "start": 671,
+        "end": 685
+      },
+      "notes": "Retake smoke. From the marked corner of Heaven, left click throw at the middle of the light to smoke off Hut.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    },
+    {
+      "id": "nuke-glaive-smoke-mid-outside-from-ct-spawn",
+      "name": "Glaive Smoke (Mid Outside)",
+      "from": "CT Spawn",
+      "side": "CT",
+      "area": "Mid",
+      "throw": { "movement": "run", "jump": false, "click": "left" },
+      "stand": { "x": 0.765, "y": 0.535, "level": "upper" },
+      "land": { "x": 0.6, "y": 0.652, "level": "upper" },
+      "video": {
+        "url": "https://www.youtube.com/watch?v=mORm-3oZVXM",
+        "start": 610,
+        "end": 645
+      },
+      "notes": "A simple smoke bounced off the marked box. Run out of CT Spawn and left click throw (technique from a BLAST guide; the video doesn't state it). Lets you slip across to Red unseen.",
+      "status": "unreviewed",
+      "checkedOn": "2026-10-10"
+    }
+  ],
   "executes": []
 }
