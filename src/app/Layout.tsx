@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import { useProgress } from "./progress";
 import styles from "./Layout.module.css";
 
@@ -16,6 +16,9 @@ export function Layout() {
         <Link to="/" className={styles.brand}>
           CS Smokes
         </Link>
+        <nav className={styles.nav} aria-label="Main">
+          <NavLink to="/settings">Settings</NavLink>
+        </nav>
       </header>
       {cannotSave && (
         <p className={styles.banner} role="status">
