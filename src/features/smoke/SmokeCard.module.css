@@ -1,0 +1,97 @@
+.card {
+  display: grid;
+  gap: 12px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.close {
+  font-size: 1.4rem;
+  text-decoration: none;
+  color: var(--text-muted);
+}
+
+.titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.titles h2 {
+  font-size: 1.3rem;
+  overflow-wrap: anywhere;
+}
+
+.from {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+}
+
+.side {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  background: var(--t-color);
+  color: #000;
+}
+
+.side[data-side="CT"] {
+  background: var(--ct-color);
+}
+
+.pager {
+  display: flex;
+  gap: 4px;
+}
+
+.pagerLink {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 1.4rem;
+  text-decoration: none;
+}
+
+.pagerLink[aria-disabled="true"] {
+  opacity: 0.35;
+}
+
+.technique {
+  margin: 0;
+  font-weight: 600;
+}
+
+.notes {
+  margin: 0;
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.mini {
+  width: 160px;
+  flex: none;
+}
+
+.facts {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  font-size: 0.9rem;
+}
+
+.checked {
+  color: var(--text-muted);
+}

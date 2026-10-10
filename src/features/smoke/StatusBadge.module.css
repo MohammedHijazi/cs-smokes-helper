@@ -1,0 +1,19 @@
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid currentColor;
+}
+
+.badge[data-status="unreviewed"] {
+  color: var(--warn);
+}
+
+.badge[data-status="ok"] {
+  color: var(--ok);
+}
+
+.badge[data-status="broken"] {
+  color: var(--bad);
+}
