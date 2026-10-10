@@ -8,6 +8,9 @@ import { lazy, Suspense, type ReactNode } from "react";
  */
 export const Edit = import.meta.env.DEV
   ? {
+      SmokeActions: lazy(() =>
+        import("../features/edit/SmokeActions").then((m) => ({ default: m.SmokeActions })),
+      ),
       SmokeFormPage: lazy(() =>
         import("../features/edit/SmokeFormPage").then((m) => ({ default: m.SmokeFormPage })),
       ),

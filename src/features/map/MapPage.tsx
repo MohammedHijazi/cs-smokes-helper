@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import { Edit, EditBoundary } from "../../app/editMode";
 import { NotFound } from "../../app/NotFound";
 import { findExecute, findLineup, getMapData, useDataVersion } from "../../data";
 import { getMapInfo, hasLevels } from "../../data/maps";
@@ -124,6 +125,13 @@ export function MapPage() {
         closeHref={backToMap("smokes")}
         prevHref={prev && smokeHref(prev)}
         nextHref={next && smokeHref(next)}
+        actions={
+          import.meta.env.DEV && Edit ? (
+            <EditBoundary key={selected.id}>
+              <Edit.SmokeActions map={map} lineup={selected} list={visible} search={search} />
+            </EditBoundary>
+          ) : undefined
+        }
       />
     );
   } else {

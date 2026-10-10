@@ -165,3 +165,28 @@
   border-radius: 999px;
   background: transparent;
 }
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions button,
+.actions a {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.actions p {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}

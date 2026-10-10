@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Link } from "react-router";
 import type { MapInfo } from "../../data/maps";
 import type { Lineup } from "../../data/schema";
@@ -17,6 +18,8 @@ export interface SmokeCardProps {
   closeHref?: string;
   prevHref?: string;
   nextHref?: string;
+  /** Dev-only edit buttons, shown under the header (page variant only). */
+  actions?: ReactNode;
 }
 
 export function SmokeCard({
@@ -26,6 +29,7 @@ export function SmokeCard({
   closeHref,
   prevHref,
   nextHref,
+  actions,
 }: SmokeCardProps) {
   const youtube = parseYouTubeUrl(lineup.video.url);
   const level = lineup.land.level ?? "upper";
@@ -54,6 +58,7 @@ export function SmokeCard({
           </nav>
         </header>
       )}
+      {variant === "page" && actions}
 
       <VideoPlayer video={lineup.video} title={title} />
       <p className={styles.technique}>{techniqueText(lineup.throw)}</p>
