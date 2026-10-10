@@ -1,4 +1,5 @@
 import { hasLevels, type MapInfo } from "../../data/maps";
+import type { Level } from "../../data/schema";
 import type { Filters } from "../../lib/filters";
 import styles from "./MapPage.module.css";
 
@@ -43,15 +44,20 @@ export function FiltersBar({
         onSelect={(area) => onChange({ ...filters, area })}
       />
       {hasLevels(map) && (
-        <Segmented
-          label="Level"
-          options={LEVEL_OPTIONS}
-          value={filters.level}
-          onSelect={(level) => onChange({ ...filters, level })}
-        />
+        <LevelSwitch value={filters.level} onSelect={(level) => onChange({ ...filters, level })} />
       )}
     </div>
   );
+}
+
+export function LevelSwitch({
+  value,
+  onSelect,
+}: {
+  value: Level;
+  onSelect: (level: Level) => void;
+}) {
+  return <Segmented label="Level" options={LEVEL_OPTIONS} value={value} onSelect={onSelect} />;
 }
 
 function Segmented<T extends string>({
