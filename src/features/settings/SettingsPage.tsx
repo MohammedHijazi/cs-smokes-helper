@@ -38,7 +38,8 @@ export function SettingsPage() {
     link.href = url;
     link.download = exportFileName(today);
     link.click();
-    URL.revokeObjectURL(url);
+    // Revoking right after the click can cancel the download in some browsers (Safari).
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   async function importFile(event: ChangeEvent<HTMLInputElement>) {

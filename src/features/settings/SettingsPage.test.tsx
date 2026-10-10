@@ -1,4 +1,4 @@
-import { screen, waitFor } from "@testing-library/react";
+import { fireEvent, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { STORAGE_KEY, defaultProgress } from "../../lib/storage";
@@ -27,6 +27,7 @@ beforeAll(() => {
 });
 
 afterEach(() => {
+  vi.useRealTimers();
   vi.restoreAllMocks();
 });
 
@@ -56,18 +57,24 @@ describe("SettingsPage", () => {
     expect(screen.getByText("Enter a whole number from 1 to 30.")).toBeInTheDocument();
   });
 
-  it("exports progress as a dated JSON file", async () => {
+  it("exports progress as a dated JSON file", () => {
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
     const createObjectURL = vi.fn(() => "blob:progress");
-    Object.assign(URL, { createObjectURL, revokeObjectURL: vi.fn() });
+    const revokeObjectURL = vi.fn();
+    Object.assign(URL, { createObjectURL, revokeObjectURL });
     const click = vi
       .spyOn(HTMLAnchorElement.prototype, "click")
       .mockImplementation(() => undefined);
     renderAt("/settings", { now });
-    await userEvent.click(screen.getByRole("button", { name: "Export progress" }));
+    fireEvent.click(screen.getByRole("button", { name: "Export progress" }));
     expect(createObjectURL).toHaveBeenCalledWith(expect.any(Blob));
     expect((click.mock.instances[0] as unknown as HTMLAnchorElement).download).toBe(
       "cs-smokes-progress-2026-10-10.json",
     );
+    // Revoking the URL right after the click can cancel the download in some browsers.
+    expect(revokeObjectURL).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(1000);
+    expect(revokeObjectURL).toHaveBeenCalledWith("blob:progress");
   });
 
   it("imports a valid file after confirmation", async () => {
