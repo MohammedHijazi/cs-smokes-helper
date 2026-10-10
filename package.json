@@ -14,7 +14,8 @@
     "test:watch": "vitest",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
-    "validate": "tsx scripts/validate-data.ts"
+    "validate": "tsx scripts/validate-data.ts",
+    "check-videos": "tsx scripts/check-videos.ts"
   },
   "dependencies": {
     "react": "^19.3.0",
