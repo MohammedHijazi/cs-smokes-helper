@@ -133,9 +133,14 @@ export function editPlugin(dataDir: string = DATA_DIR): Plugin {
     configureServer(server) {
       server.middlewares.use(createEditMiddleware({ dataDir, onWritten: tracker.remember }));
     },
-    async handleHotUpdate({ file, read }) {
-      // No modules to update: Vite neither reloads nor hot-updates for the editor's own write.
-      if (await tracker.isOwnWrite(file, read)) return [];
+    async handleHotUpdate({ file, read, modules, timestamp, server }) {
+      if (!(await tracker.isOwnWrite(file, read))) return;
+      // The page already has this data (saveMap swapped it in), so send no update. But mark the
+      // JSON module as hot-updated: a later re-import then carries a fresh ?t= instead of reusing
+      // the browser's pre-save copy.
+      for (const mod of modules)
+        server.moduleGraph.invalidateModule(mod, new Set(), timestamp, true);
+      return [];
     },
   };
 }

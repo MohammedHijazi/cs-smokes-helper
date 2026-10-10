@@ -7,7 +7,12 @@ import { normalizePath } from "vite";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { MapFile } from "../src/data/schema";
 import { makeLineup, makeMapFile } from "../src/test/fixtures";
-import { createEditMiddleware, createWriteTracker, requestProblem } from "./edit-plugin";
+import {
+  createEditMiddleware,
+  createWriteTracker,
+  editPlugin,
+  requestProblem,
+} from "./edit-plugin";
 import { makeDataDir } from "./temp-data-dir";
 
 describe("requestProblem", () => {
@@ -184,5 +189,83 @@ describe("edit middleware", () => {
     expect((await send("GET", "/__edit/maps/mirage")).status).toBe(404);
     expect((await send("PUT", "/__edit/other", "{}")).status).toBe(404);
     expect(passedOn).toHaveBeenCalledTimes(2);
+  });
+});
+
+describe("editPlugin hot updates", () => {
+  const MIRAGE: MapFile = makeMapFile("mirage", [makeLineup()]);
+  const RENAMED: MapFile = { ...MIRAGE, lineups: [{ ...MIRAGE.lineups[0], name: "Window box" }] };
+  let data: Awaited<ReturnType<typeof makeDataDir>>;
+  let server: Server;
+
+  beforeEach(async () => {
+    data = await makeDataDir({ mirage: MIRAGE });
+    const plugin = editPlugin(data.dir);
+    let middleware: ReturnType<typeof createEditMiddleware> | undefined;
+    (plugin.configureServer as (server: unknown) => void)({
+      middlewares: { use: (fn: typeof middleware) => (middleware = fn) },
+    });
+    server = createServer((req, res) =>
+      middleware?.(req, res, () => {
+        res.statusCode = 404;
+        res.end();
+      }),
+    );
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    pluginUnderTest = plugin;
+  });
+
+  afterEach(async () => {
+    await new Promise((resolve) => server.close(resolve));
+    data.cleanup();
+  });
+
+  let pluginUnderTest: ReturnType<typeof editPlugin>;
+
+  async function saveThroughMiddleware() {
+    const port = (server.address() as AddressInfo).port;
+    await new Promise<void>((resolve, reject) => {
+      const req = httpRequest(
+        `http://127.0.0.1:${port}/__edit/maps/mirage`,
+        { method: "PUT", headers: { "Content-Type": "application/json" } },
+        (res) => {
+          res.resume();
+          res.on("end", resolve);
+        },
+      );
+      req.on("error", reject);
+      req.end(JSON.stringify({ base: MIRAGE, file: RENAMED }));
+    });
+  }
+
+  function hotUpdate(read: () => string) {
+    const module = {};
+    const invalidateModule = vi.fn();
+    const handler = pluginUnderTest.handleHotUpdate as (ctx: unknown) => Promise<unknown>;
+    const result = handler({
+      file: normalizePath(data.path("mirage")),
+      read,
+      modules: [module],
+      timestamp: 123,
+      server: { moduleGraph: { invalidateModule } },
+    });
+    return { module, invalidateModule, result };
+  }
+
+  it("sends no update for its own write, but marks the module as hot-updated", async () => {
+    await saveThroughMiddleware();
+    const { module, invalidateModule, result } = hotUpdate(() =>
+      readFileSync(data.path("mirage"), "utf8"),
+    );
+    expect(await result).toEqual([]);
+    expect(invalidateModule).toHaveBeenCalledTimes(1);
+    expect(invalidateModule).toHaveBeenCalledWith(module, expect.any(Set), 123, true);
+  });
+
+  it("leaves a hand edit to Vite", async () => {
+    await saveThroughMiddleware();
+    const { invalidateModule, result } = hotUpdate(() => "edited by hand");
+    expect(await result).toBeUndefined();
+    expect(invalidateModule).not.toHaveBeenCalled();
   });
 });
