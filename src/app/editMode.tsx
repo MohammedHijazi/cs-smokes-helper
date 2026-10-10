@@ -14,6 +14,12 @@ export const Edit = import.meta.env.DEV
       SmokeFormPage: lazy(() =>
         import("../features/edit/SmokeFormPage").then((m) => ({ default: m.SmokeFormPage })),
       ),
+      ExecuteFormPage: lazy(() =>
+        import("../features/edit/ExecuteFormPage").then((m) => ({ default: m.ExecuteFormPage })),
+      ),
+      ExecuteActions: lazy(() =>
+        import("../features/edit/ExecuteActions").then((m) => ({ default: m.ExecuteActions })),
+      ),
     }
   : null;
 

@@ -190,3 +190,38 @@
   font-size: 0.85rem;
   color: var(--text-muted);
 }
+
+.label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.steps {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.steps li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.stepName {
+  flex: 1;
+}
+
+.steps button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface-2);
+}

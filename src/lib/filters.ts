@@ -54,3 +54,10 @@ export function neighbours(list: readonly Lineup[], id: string): { prev?: Lineup
   if (index === -1) return {};
   return { prev: list[index - 1], next: list[index + 1] };
 }
+
+/** Filters plus the map view's list tab, as a query string ("smokes" is the default tab). */
+export function searchWithTab(filters: Filters, tab: "smokes" | "executes"): string {
+  const base = filtersToSearch(filters);
+  if (tab === "smokes") return base;
+  return base ? `${base}&tab=executes` : "?tab=executes";
+}

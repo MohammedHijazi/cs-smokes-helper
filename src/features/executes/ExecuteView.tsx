@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router";
 import type { MapInfo } from "../../data/maps";
 import type { Execute, Lineup } from "../../data/schema";
@@ -10,12 +10,15 @@ export function ExecuteView({
   execute,
   lineups,
   closeHref,
+  actions,
 }: {
   map: MapInfo;
   execute: Execute;
   /** The execute's smokes, in throw order. */
   lineups: readonly Lineup[];
   closeHref: string;
+  /** Dev-only edit buttons, shown under the header. */
+  actions?: ReactNode;
 }) {
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -30,6 +33,7 @@ export function ExecuteView({
           {execute.side}
         </span>
       </header>
+      {actions}
       {execute.notes && <p className={styles.notes}>{execute.notes}</p>}
       <ol className={styles.steps}>
         {lineups.map((lineup, index) => {

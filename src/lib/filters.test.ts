@@ -6,6 +6,7 @@ import {
   filtersToSearch,
   neighbours,
   parseFilters,
+  searchWithTab,
 } from "./filters";
 
 describe("parseFilters", () => {
@@ -59,5 +60,18 @@ describe("neighbours", () => {
 
   it("returns nothing for a smoke that isn't in the list", () => {
     expect(neighbours(list, "mirage-z")).toEqual({});
+  });
+});
+
+describe("searchWithTab", () => {
+  it("adds the executes tab to the filters", () => {
+    expect(searchWithTab({ side: "T", area: "all", level: "upper" }, "executes")).toBe(
+      "?side=T&tab=executes",
+    );
+    expect(searchWithTab(DEFAULT_FILTERS, "executes")).toBe("?tab=executes");
+  });
+
+  it("leaves the smokes tab out, since it is the default", () => {
+    expect(searchWithTab({ side: "T", area: "all", level: "upper" }, "smokes")).toBe("?side=T");
   });
 });

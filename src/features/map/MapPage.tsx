@@ -10,7 +10,7 @@ import {
   filtersToSearch,
   neighbours,
   parseFilters,
-  type Filters,
+  searchWithTab,
 } from "../../lib/filters";
 import { HIT_RADIUS_PX, nearestWithin, type Point } from "../../lib/radar";
 import { ExecuteList } from "../executes/ExecuteList";
@@ -29,13 +29,6 @@ type Tab = "smokes" | "executes";
 const isOn = (position: Position, level: Level, withLevels: boolean) =>
   !withLevels || (position.level ?? "upper") === level;
 
-/** Filters plus the list tab, as a query string. */
-function searchFor(filters: Filters, tab: Tab): string {
-  const base = filtersToSearch(filters);
-  if (tab === "smokes") return base;
-  return base ? `${base}&tab=executes` : "?tab=executes";
-}
-
 export function MapPage() {
   const { mapId = "", lineupId, executeId } = useParams();
   const [params] = useSearchParams();
@@ -50,7 +43,7 @@ export function MapPage() {
   const filters = parseFilters(params);
   const tab: Tab = params.get("tab") === "executes" ? "executes" : "smokes";
   const search = filtersToSearch(filters);
-  const backToMap = (toTab: Tab) => `/maps/${map.id}${searchFor(filters, toTab)}`;
+  const backToMap = (toTab: Tab) => `/maps/${map.id}${searchWithTab(filters, toTab)}`;
 
   const selected = lineupId ? findLineup(map.id, lineupId) : undefined;
   if (lineupId && !selected) {
@@ -114,6 +107,18 @@ export function MapPage() {
         execute={execute}
         lineups={executeLineups}
         closeHref={backToMap("executes")}
+        actions={
+          import.meta.env.DEV && Edit ? (
+            <EditBoundary key={execute.id}>
+              <Edit.ExecuteActions
+                map={map}
+                execute={execute}
+                search={search}
+                listHref={backToMap("executes")}
+              />
+            </EditBoundary>
+          ) : undefined
+        }
       />
     );
   } else if (selected) {
@@ -142,7 +147,7 @@ export function MapPage() {
             type="button"
             role="tab"
             aria-selected={tab === "smokes"}
-            onClick={() => replaceSearch(searchFor(filters, "smokes"))}
+            onClick={() => replaceSearch(searchWithTab(filters, "smokes"))}
           >
             Smokes ({visible.length})
           </button>
@@ -150,7 +155,7 @@ export function MapPage() {
             type="button"
             role="tab"
             aria-selected={tab === "executes"}
-            onClick={() => replaceSearch(searchFor(filters, "executes"))}
+            onClick={() => replaceSearch(searchWithTab(filters, "executes"))}
           >
             Executes ({visibleExecutes.length})
           </button>
@@ -174,17 +179,24 @@ export function MapPage() {
             />
           </>
         ) : (
-          <ExecuteList
-            mapId={map.id}
-            executes={visibleExecutes}
-            lineups={data.lineups}
-            search={search}
-            emptyText={
-              data.executes.length === 0
-                ? "No executes on this map yet."
-                : "No executes match these filters."
-            }
-          />
+          <>
+            {import.meta.env.DEV && (
+              <Link to={`/maps/${map.id}/executes/new${search}`} className={styles.addLink}>
+                + Add execute
+              </Link>
+            )}
+            <ExecuteList
+              mapId={map.id}
+              executes={visibleExecutes}
+              lineups={data.lineups}
+              search={search}
+              emptyText={
+                data.executes.length === 0
+                  ? "No executes on this map yet."
+                  : "No executes match these filters."
+              }
+            />
+          </>
         )}
       </>
     );
@@ -199,14 +211,14 @@ export function MapPage() {
           withLevels && (
             <LevelSwitch
               value={filters.level}
-              onSelect={(level) => replaceSearch(searchFor({ ...filters, level }, tab))}
+              onSelect={(level) => replaceSearch(searchWithTab({ ...filters, level }, tab))}
             />
           )
         ) : (
           <FiltersBar
             map={map}
             filters={filters}
-            onChange={(next) => replaceSearch(searchFor(next, tab))}
+            onChange={(next) => replaceSearch(searchWithTab(next, tab))}
           />
         )
       }

@@ -33,6 +33,22 @@ export function AppRoutes() {
                 </EditBoundary>
               }
             />
+            <Route
+              path="maps/:mapId/executes/new"
+              element={
+                <EditBoundary>
+                  <Edit.ExecuteFormPage />
+                </EditBoundary>
+              }
+            />
+            <Route
+              path="maps/:mapId/executes/:executeId/edit"
+              element={
+                <EditBoundary>
+                  <Edit.ExecuteFormPage />
+                </EditBoundary>
+              }
+            />
           </>
         )}
         <Route path="study" element={<StudyPage />} />
