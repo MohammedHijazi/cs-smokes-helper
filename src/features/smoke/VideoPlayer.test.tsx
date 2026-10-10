@@ -121,6 +121,41 @@ describe("VideoPlayer", () => {
     );
   });
 
+  it("stops the loop timer and destroys the player when it reports an error after ready", async () => {
+    const view = render(<VideoPlayer video={VIDEO} title="Window" />);
+    await waitFor(() => expect(created).toHaveLength(1));
+    vi.useFakeTimers();
+    const { options, player } = created[0];
+    act(() => options.events.onReady?.({ target: player }));
+    player.getCurrentTime.mockReturnValue(112);
+    act(() => options.events.onError?.({ data: 150 }));
+    player.getCurrentTime.mockClear();
+    player.seekTo.mockClear();
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(player.getCurrentTime).not.toHaveBeenCalled();
+    expect(player.seekTo).not.toHaveBeenCalled();
+    expect(player.destroy).toHaveBeenCalledTimes(1);
+    view.unmount();
+    expect(player.destroy).toHaveBeenCalledTimes(1);
+  });
+
+  it("stops the loop timer when unmounted", async () => {
+    const view = render(<VideoPlayer video={VIDEO} title="Window" />);
+    await waitFor(() => expect(created).toHaveLength(1));
+    vi.useFakeTimers();
+    const { options, player } = created[0];
+    act(() => options.events.onReady?.({ target: player }));
+    player.getCurrentTime.mockReturnValue(112);
+    view.unmount();
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+    expect(player.getCurrentTime).not.toHaveBeenCalled();
+    expect(player.seekTo).not.toHaveBeenCalled();
+  });
+
   it("shows the fallback when the API cannot load", async () => {
     api.load.mockRejectedValue(new Error("blocked"));
     render(<VideoPlayer video={VIDEO} title="Window" />);
