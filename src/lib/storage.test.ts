@@ -56,6 +56,20 @@ describe("loadProgress", () => {
     expect(loadProgress(storage, NOW)).toEqual({ progress, status: "ok" });
   });
 
+  it("keeps progress that names a map no longer in the pool, leaving that map out", () => {
+    const progress = recordAnswer(defaultProgress(), "mirage-a", "got", TODAY);
+    const stored = {
+      ...progress,
+      settings: { ...progress.settings, maps: ["mirage", "vertigo", "nuke"] },
+    };
+    const storage = memoryStorage({ [STORAGE_KEY]: JSON.stringify(stored) });
+    expect(loadProgress(storage, NOW)).toEqual({
+      progress: { ...progress, settings: { ...progress.settings, maps: ["mirage", "nuke"] } },
+      status: "ok",
+    });
+    expect([...storage.data.keys()]).toEqual([STORAGE_KEY]);
+  });
+
   it("backs up and resets unreadable progress", () => {
     const storage = memoryStorage({ [STORAGE_KEY]: "{not json" });
     expect(loadProgress(storage, NOW)).toEqual({ progress: defaultProgress(), status: "reset" });
@@ -109,6 +123,18 @@ describe("export and import", () => {
   it("round-trips progress", () => {
     const progress = recordAnswer(defaultProgress(), "mirage-a", "got", TODAY);
     expect(importProgress(exportProgress(progress))).toEqual({ ok: true, progress });
+  });
+
+  it("imports an export that names a map no longer in the pool, leaving that map out", () => {
+    const progress = defaultProgress();
+    const exported = {
+      ...progress,
+      settings: { ...progress.settings, maps: ["vertigo", "dust2"] },
+    };
+    expect(importProgress(JSON.stringify(exported))).toEqual({
+      ok: true,
+      progress: { ...progress, settings: { ...progress.settings, maps: ["dust2"] } },
+    });
   });
 
   it("rejects files that aren't progress exports", () => {

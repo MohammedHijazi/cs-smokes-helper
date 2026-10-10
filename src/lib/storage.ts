@@ -1,11 +1,13 @@
 import { z } from "zod";
-import { MAP_IDS, SIDES, dateSchema } from "../data/schema";
+import { MAP_IDS, SIDES, dateSchema, type MapId } from "../data/schema";
 import { applyRating, type Rating } from "./scheduler";
 
 export const STORAGE_KEY = "cs-smokes:progress:v1";
 export const BACKUP_PREFIX = "cs-smokes:progress:backup:";
 export const NEW_PER_DAY_MIN = 1;
 export const NEW_PER_DAY_MAX = 30;
+
+const isMapId = (id: string): id is MapId => (MAP_IDS as readonly string[]).includes(id);
 
 const cardSchema = z.strictObject({
   box: z.literal([1, 2, 3, 4, 5]),
@@ -19,7 +21,8 @@ export const progressSchema = z.strictObject({
   newToday: z.strictObject({ date: dateSchema, count: z.number().int().min(0) }),
   settings: z.strictObject({
     newPerDay: z.number().int().min(NEW_PER_DAY_MIN).max(NEW_PER_DAY_MAX),
-    maps: z.array(z.enum(MAP_IDS)),
+    // A map that has left the pool is ignored, rather than making all progress unreadable.
+    maps: z.array(z.string()).transform((maps) => maps.filter(isMapId)),
     sides: z.array(z.enum(SIDES)),
   }),
 });
@@ -56,10 +59,20 @@ export function getBrowserStorage(): StorageLike | null {
   }
 }
 
-function parseProgress(text: string): Progress | null {
+export function parseProgress(text: string): Progress | null {
   try {
     const result = progressSchema.safeParse(JSON.parse(text));
     return result.success ? result.data : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The stored progress as text; null when nothing is stored or storage can't be read. */
+export function readStoredText(storage: StorageLike | null): string | null {
+  if (!storage) return null;
+  try {
+    return storage.getItem(STORAGE_KEY);
   } catch {
     return null;
   }
