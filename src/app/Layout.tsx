@@ -17,6 +17,7 @@ export function Layout() {
           CS Smokes
         </Link>
         <nav className={styles.nav} aria-label="Main">
+          <NavLink to="/study">Study</NavLink>
           <NavLink to="/settings">Settings</NavLink>
         </nav>
       </header>
