@@ -1,0 +1,45 @@
+.title {
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+}
+
+.grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.tile {
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.tile:hover {
+  border-color: var(--accent);
+}
+
+.thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #000;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.count {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
