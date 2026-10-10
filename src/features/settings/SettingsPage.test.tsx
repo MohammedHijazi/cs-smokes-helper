@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { STORAGE_KEY, defaultProgress } from "../../lib/storage";
@@ -8,6 +8,8 @@ import { renderAt } from "../../test/render";
 vi.mock("../../data", async () => (await import("../../test/fixtureData")).mockDataModule());
 
 const now = () => new Date(2026, 9, 10, 9, 0);
+// The provider saves in a passive effect after a state change, so a test that reads storage
+// right after an action must wait for that write (use `waitFor`), not read it synchronously.
 const saved = (storage: ReturnType<typeof memoryStorage>) =>
   JSON.parse(storage.data.get(STORAGE_KEY) ?? "null");
 
@@ -41,7 +43,7 @@ describe("SettingsPage", () => {
     const input = screen.getByLabelText("New smokes per day");
     await userEvent.clear(input);
     await userEvent.type(input, "15");
-    expect(saved(storage).settings.newPerDay).toBe(15);
+    await waitFor(() => expect(saved(storage)?.settings.newPerDay).toBe(15));
   });
 
   it("does not save numbers outside 1–30", async () => {
@@ -50,7 +52,7 @@ describe("SettingsPage", () => {
     const input = screen.getByLabelText("New smokes per day");
     await userEvent.clear(input);
     await userEvent.type(input, "45");
-    expect(saved(storage).settings.newPerDay).toBe(4);
+    await waitFor(() => expect(saved(storage)?.settings.newPerDay).toBe(4));
     expect(screen.getByText("Enter a whole number from 1 to 30.")).toBeInTheDocument();
   });
 
@@ -82,7 +84,7 @@ describe("SettingsPage", () => {
     await userEvent.upload(screen.getByLabelText("Import progress"), file);
     expect(await screen.findByText("Progress imported.")).toBeInTheDocument();
     expect(screen.getByLabelText("New smokes per day")).toHaveValue(7);
-    expect(saved(storage).settings.newPerDay).toBe(7);
+    await waitFor(() => expect(saved(storage)?.settings.newPerDay).toBe(7));
   });
 
   it("rejects a file that isn't a progress export and keeps the current progress", async () => {
@@ -110,6 +112,6 @@ describe("SettingsPage", () => {
     confirm.mockReturnValue(true);
     await userEvent.click(screen.getByRole("button", { name: "Reset progress" }));
     expect(screen.getByText("Progress reset.")).toBeInTheDocument();
-    expect(saved(storage)).toEqual(defaultProgress());
+    await waitFor(() => expect(saved(storage)).toEqual(defaultProgress()));
   });
 });
