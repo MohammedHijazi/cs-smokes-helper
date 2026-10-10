@@ -476,7 +476,8 @@ The four options are shown in random order.
   - Deleting a smoke also removes it from executes, after confirmation.
   - An executes editor picks smokes in order.
 - Publishing stays manual: `git commit` and `git push`.
-- This phase gets its own detailed design before it starts.
+- Designed in detail in
+  [2026-10-10-cs2-smoke-lineups-phase2-edit-mode-design.md](2026-10-10-cs2-smoke-lineups-phase2-edit-mode-design.md).
 
 ## 12. Error handling
 

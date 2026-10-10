@@ -7,27 +7,49 @@ Live site: https://mohammedhijazi.github.io/cs-smokes-helper/
 
 ## Commands
 
-| Command                              | What it does                                                   |
-| ------------------------------------ | -------------------------------------------------------------- |
-| `npm run dev`                        | Start the local dev server                                     |
-| `npm test`                           | Run the tests once                                             |
-| `npm run lint`                       | ESLint and the Prettier check                                  |
-| `npm run validate`                   | Check every file in `data/maps/`                               |
-| `npm run check-videos`               | Ask YouTube whether every video still exists and embeds        |
-| `npm run preview-markers -- <mapId>` | Draw a map's markers on its radar in `tmp/preview-<mapId>.png` |
-| `npm run build`                      | Type-check and build the site into `dist/`                     |
-| `npm run radars` / `npm run icons`   | Regenerate radar images / app icons (rarely needed)            |
+| Command                              | What it does                                                      |
+| ------------------------------------ | ----------------------------------------------------------------- |
+| `npm run dev`                        | Start the local dev server                                        |
+| `npm test`                           | Run the tests once                                                |
+| `npm run lint`                       | ESLint and the Prettier check                                     |
+| `npm run validate`                   | Check every file in `data/maps/`                                  |
+| `npm run format-data`                | Rewrite the data files in the canonical layout                    |
+| `npm run check-bundle`               | Fail if edit-mode code is in `dist/` (CI runs it after the build) |
+| `npm run check-videos`               | Ask YouTube whether every video still exists and embeds           |
+| `npm run preview-markers -- <mapId>` | Draw a map's markers on its radar in `tmp/preview-<mapId>.png`    |
+| `npm run build`                      | Type-check and build the site into `dist/`                        |
+| `npm run radars` / `npm run icons`   | Regenerate radar images / app icons (rarely needed)               |
 
 ## Data
 
 Each map has one file in `data/maps/` (`ancient`, `anubis`, `cache`, `dust2`, `inferno`,
-`mirage`, `nuke`). Until the editor exists, add or fix a smoke by editing that file — the
-fields and rules are in the design spec (§6) — then run `npm run validate`,
+`mirage`, `nuke`). The fields and rules are in the design spec (§6).
+
+### Edit mode
+
+Run `npm run dev` and open the local site. Edit mode only exists there; the published site
+stays read-only.
+
+- **Add a smoke:** on a map, choose **+ Add smoke**, paste the video link, use **Set start** and
+  **Set end** while the video plays, fill in the fields, click the radar for the land spot and
+  then the stand spot, and **Save**.
+- **Review a smoke:** open it, check the clip and the spots, fix anything with **Edit**, then
+  choose **Mark reviewed**. It is set to `ok`, dated today, and the next unreviewed smoke in the
+  list opens.
+- **Delete** asks first and also removes the smoke from executes.
+- **Executes:** **+ Add execute** on the Executes tab; **Edit** and **Delete** on an execute.
+
+Every save is checked like `npm run validate` and written in one canonical layout, so `git diff`
+shows only what changed. Publish with `git commit` and `git push`.
+
+### Editing by hand
+
+You can still edit a file directly. Afterwards run `npm run format-data`, `npm run validate`,
 `npm run check-videos` and `npm run preview-markers -- <mapId>`.
 
 The starter smokes were added by following [docs/seeding.md](docs/seeding.md). They start as
-`"status": "unreviewed"`; set `"ok"` once you have checked one in game, or `"broken"` if a
-map update broke it.
+`"status": "unreviewed"`; mark one reviewed (`"ok"`) once you have checked it in game, or set
+`"broken"` if a map update broke it.
 
 ## Studying
 
