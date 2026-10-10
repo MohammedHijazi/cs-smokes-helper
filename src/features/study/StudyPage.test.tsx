@@ -29,6 +29,25 @@ describe("StudyPage", () => {
     expect(screen.getByText("0 due · 6 new")).toBeInTheDocument();
   });
 
+  it("counts for the new day when the page comes back the next morning", async () => {
+    let clock = new Date(2026, 9, 10, 22, 0);
+    const cards = {
+      "mirage-window-from-t-spawn": { box: 1, due: "2026-10-11", lastReviewed: "2026-10-10" },
+    } as const;
+    // Every new smoke allowed today has been studied; the next one comes due tomorrow.
+    const progress = { ...defaultProgress(), cards, newToday: { date: "2026-10-10", count: 10 } };
+    renderAt("/", { storage: stored(progress), now: () => clock });
+    expect(screen.getByRole("link", { name: "Study · 0 due" })).toBeInTheDocument();
+
+    // The next morning; the phone kept the page in memory overnight.
+    clock = new Date(2026, 9, 11, 8, 0);
+    fireEvent(document, new Event("visibilitychange"));
+    expect(screen.getByRole("link", { name: "Study · 6 due" })).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("link", { name: "Study" }));
+    expect(screen.getByText("1 due · 5 new")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Start" })).toBeEnabled();
+  });
+
   it("is linked from home and from the header", async () => {
     renderAt("/", { now });
     expect(screen.getByRole("link", { name: "Study · 6 due" })).toHaveAttribute("href", "/study");

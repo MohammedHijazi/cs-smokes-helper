@@ -56,10 +56,20 @@ export function getBrowserStorage(): StorageLike | null {
   }
 }
 
-function parseProgress(text: string): Progress | null {
+export function parseProgress(text: string): Progress | null {
   try {
     const result = progressSchema.safeParse(JSON.parse(text));
     return result.success ? result.data : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The stored progress as text; null when nothing is stored or storage can't be read. */
+export function readStoredText(storage: StorageLike | null): string | null {
+  if (!storage) return null;
+  try {
+    return storage.getItem(STORAGE_KEY);
   } catch {
     return null;
   }
