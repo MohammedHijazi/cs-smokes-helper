@@ -25,7 +25,7 @@
       "stand": { "x": 0.51, "y": 0.385 },
       "land": { "x": 0.52, "y": 0.15 },
       "video": { "url": "https://www.youtube.com/watch?v=yrkRW24a1CQ", "start": 195, "end": 225 },
-      "notes": "B execute smoke onto Coffins. Technique from CSNADES (updated 2026-04); not stated in the video.",
+      "notes": "B execute smoke onto Coffins. Technique from CSNADES (updated 2026-04); not stated in the video. Verify stand spot in the video.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
     },
@@ -67,7 +67,7 @@
       "stand": { "x": 0.47, "y": 0.795 },
       "land": { "x": 0.915, "y": 0.525 },
       "video": { "url": "https://www.youtube.com/watch?v=5y43zuQjGSc", "start": 197, "end": 230 },
-      "notes": "A execute smoke. The clip shows the Arch and Library smokes together. Technique from CSNADES; not stated in the video. cs2pulse (2025): aim above the S of CASA on the building in front.",
+      "notes": "A execute smoke. The clip shows the Arch and Library smokes together. Technique from CSNADES; not stated in the video. Pre-2026-03-04 hint, may be outdated — check the video: cs2pulse (2025) aim above the S of CASA on the building in front.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
     },
@@ -95,7 +95,7 @@
       "stand": { "x": 0.47, "y": 0.795 },
       "land": { "x": 0.73, "y": 0.545 },
       "video": { "url": "https://www.youtube.com/watch?v=yrkRW24a1CQ", "start": 267, "end": 308 },
-      "notes": "technique not stated in source. cs2pulse (2025): jump throw from the Second Mid magazine stand, aim at the balcony above the V on the building in front.",
+      "notes": "technique not stated in source. cs2pulse (2025): jump throw from the Second Mid magazine stand. Pre-2026-03-04 hint, may be outdated — check the video: aim at the balcony above the V on the building in front.",
       "status": "unreviewed",
       "checkedOn": "2026-10-10"
     },
