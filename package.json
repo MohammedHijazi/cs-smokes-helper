@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint . && prettier --check .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "validate": "tsx scripts/validate-data.ts"
   },
   "dependencies": {
     "react": "^19.3.0",
