@@ -156,5 +156,23 @@
       "checkedOn": "2026-10-10"
     }
   ],
-  "executes": []
+  "executes": [
+    {
+      "id": "inferno-a-execute",
+      "name": "A execute",
+      "side": "T",
+      "lineupIds": [
+        "inferno-long-from-second-mid",
+        "inferno-arch-from-second-mid",
+        "inferno-library-from-second-mid",
+        "inferno-moto-from-second-mid"
+      ]
+    },
+    {
+      "id": "inferno-b-execute",
+      "name": "B execute",
+      "side": "T",
+      "lineupIds": ["inferno-ct-from-banana", "inferno-coffins-from-banana"]
+    }
+  ]
 }

@@ -200,5 +200,12 @@
       "checkedOn": "2026-10-10"
     }
   ],
-  "executes": []
+  "executes": [
+    {
+      "id": "nuke-a-execute",
+      "name": "A execute",
+      "side": "T",
+      "lineupIds": ["nuke-heaven-from-t-spawn", "nuke-squeaky-door-vent-lurk-from-t-spawn"]
+    }
+  ]
 }

@@ -94,3 +94,11 @@ Post this in chat:
 - anything uncertain: missing timestamps, unclear technique, markers you're unsure of.
 
 Then commit: `git add data/maps/<mapId>.json && git commit -m "data: seed <Map name> smokes"`.
+
+## 8. Executes
+
+For each site, add one execute (two at most per map) built only from smokes already in the
+file, in the order a team throws them. Use the sources from step 2 to confirm which smokes
+belong together; name them "A execute" or "B execute" (add a word such as "fast" or "split"
+to tell two apart). Add `notes` only when the order or timing matters and a source says so.
+Each execute needs 2–8 smokes, all from the same side. Then run step 6 again.

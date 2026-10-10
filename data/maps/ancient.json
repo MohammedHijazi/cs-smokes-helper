@@ -218,5 +218,26 @@
       "checkedOn": "2026-10-10"
     }
   ],
-  "executes": []
+  "executes": [
+    {
+      "id": "ancient-a-execute",
+      "name": "A execute",
+      "side": "T",
+      "lineupIds": [
+        "ancient-ct-lane-from-a-main",
+        "ancient-a-donut-from-a-main",
+        "ancient-temple-from-a-main"
+      ]
+    },
+    {
+      "id": "ancient-b-execute",
+      "name": "B execute",
+      "side": "T",
+      "lineupIds": [
+        "ancient-b-long-from-t-spawn",
+        "ancient-b-short-from-ruins",
+        "ancient-cave-from-t-spawn"
+      ]
+    }
+  ]
 }

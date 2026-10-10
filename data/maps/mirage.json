@@ -217,5 +217,26 @@
       "checkedOn": "2026-10-10"
     }
   ],
-  "executes": []
+  "executes": [
+    {
+      "id": "mirage-a-execute",
+      "name": "A execute",
+      "side": "T",
+      "lineupIds": [
+        "mirage-ct-ticket-from-a-ramp",
+        "mirage-jungle-from-a-ramp",
+        "mirage-stairs-from-a-ramp"
+      ]
+    },
+    {
+      "id": "mirage-b-execute",
+      "name": "B execute",
+      "side": "T",
+      "lineupIds": [
+        "mirage-market-window-from-back-alley",
+        "mirage-market-door-from-back-alley",
+        "mirage-b-short-from-back-alley"
+      ]
+    }
+  ]
 }

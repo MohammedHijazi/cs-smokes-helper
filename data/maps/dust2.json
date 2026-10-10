@@ -170,5 +170,22 @@
       "checkedOn": "2026-10-10"
     }
   ],
-  "executes": []
+  "executes": [
+    {
+      "id": "dust2-a-execute",
+      "name": "A execute",
+      "side": "T",
+      "lineupIds": ["dust2-long-corner-from-t-spawn", "dust2-a-cross-from-long-blue-box"]
+    },
+    {
+      "id": "dust2-b-execute",
+      "name": "B execute",
+      "side": "T",
+      "lineupIds": [
+        "dust2-b-doors-from-outside-tunnels",
+        "dust2-b-window-from-outside-tunnels",
+        "dust2-mid-to-b-from-xbox"
+      ]
+    }
+  ]
 }

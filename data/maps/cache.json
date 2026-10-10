@@ -192,5 +192,22 @@
       "checkedOn": "2026-10-10"
     }
   ],
-  "executes": []
+  "executes": [
+    {
+      "id": "cache-a-execute",
+      "name": "A execute",
+      "side": "T",
+      "lineupIds": [
+        "cache-connector-from-outside-a",
+        "cache-highway-from-outside-a",
+        "cache-a-cross-from-a-main"
+      ]
+    },
+    {
+      "id": "cache-b-execute",
+      "name": "B execute",
+      "side": "T",
+      "lineupIds": ["cache-heaven-from-b-halls", "cache-tree-from-b-halls"]
+    }
+  ]
 }
