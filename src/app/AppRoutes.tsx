@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router";
 import { HomePage } from "../features/home/HomePage";
+import { SettingsPage } from "../features/settings/SettingsPage";
 import { Layout } from "./Layout";
 import { NotFound } from "./NotFound";
 
@@ -8,6 +9,7 @@ export function AppRoutes() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
+        <Route path="settings" element={<SettingsPage />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
