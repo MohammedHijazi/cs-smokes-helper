@@ -156,5 +156,18 @@
       "checkedOn": "2026-10-10"
     }
   ],
-  "executes": []
+  "executes": [
+    {
+      "id": "anubis-a-execute",
+      "name": "A execute",
+      "side": "T",
+      "lineupIds": ["anubis-camera-from-rugs", "anubis-heaven-from-water"]
+    },
+    {
+      "id": "anubis-b-execute",
+      "name": "B execute",
+      "side": "T",
+      "lineupIds": ["anubis-b-site-right-from-b-main", "anubis-b-site-left-from-b-main"]
+    }
+  ]
 }
