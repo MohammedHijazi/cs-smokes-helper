@@ -57,6 +57,18 @@ function YouTubeClip({ videoId, start, end, url, title, autoplay }: ClipProps) {
     let instance: YTPlayer | null = null;
     let timer: number | undefined;
 
+    // Safe to call more than once: it clears what it releases, so the unmount
+    // cleanup does not destroy the player again after an error did.
+    const teardown = () => {
+      if (timer !== undefined) {
+        window.clearInterval(timer);
+        timer = undefined;
+      }
+      instance?.destroy();
+      instance = null;
+      player.current = null;
+    };
+
     loadYouTubeApi()
       .then((YT) => {
         if (cancelled || !host.current) return;
@@ -89,7 +101,9 @@ function YouTubeClip({ videoId, start, end, url, title, autoplay }: ClipProps) {
               }
             },
             onError: () => {
-              if (!cancelled) setStatus("error");
+              if (cancelled) return;
+              teardown();
+              setStatus("error");
             },
           },
         });
@@ -100,9 +114,7 @@ function YouTubeClip({ videoId, start, end, url, title, autoplay }: ClipProps) {
 
     return () => {
       cancelled = true;
-      if (timer !== undefined) window.clearInterval(timer);
-      instance?.destroy();
-      player.current = null;
+      teardown();
     };
   }, [videoId, start, end, autoplay]);
 
