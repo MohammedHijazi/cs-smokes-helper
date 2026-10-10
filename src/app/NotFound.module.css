@@ -1,0 +1,5 @@
+.page {
+  display: grid;
+  gap: 12px;
+  padding: 32px 0;
+}
