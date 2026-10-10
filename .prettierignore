@@ -1,0 +1,9 @@
+dist
+node_modules
+coverage
+tmp
+docs
+public/radars
+public/icons
+package-lock.json
+.superpowers
