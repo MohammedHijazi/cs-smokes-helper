@@ -1,4 +1,8 @@
 .shell {
+  /* With viewport-fit=cover, keep content clear of a notch or home indicator. */
+  --pad-left: max(16px, env(safe-area-inset-left));
+  --pad-right: max(16px, env(safe-area-inset-right));
+  --pad-bottom: max(16px, env(safe-area-inset-bottom));
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -12,7 +16,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--gap);
-  padding: 12px 16px;
+  padding: 12px var(--pad-right) 12px var(--pad-left);
   background: var(--surface);
   border-bottom: 1px solid var(--border);
 }
@@ -43,11 +47,11 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 16px var(--pad-right) 16px var(--pad-left);
 }
 
 .footer {
-  padding: 16px;
+  padding: 16px var(--pad-right) var(--pad-bottom) var(--pad-left);
   color: var(--text-muted);
   font-size: 0.8rem;
   text-align: center;
@@ -56,7 +60,7 @@
 
 .banner {
   margin: 0;
-  padding: 10px 16px;
+  padding: 10px var(--pad-right) 10px var(--pad-left);
   background: color-mix(in srgb, var(--warn) 18%, var(--surface));
   border-bottom: 1px solid var(--border);
   color: var(--text);
