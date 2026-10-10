@@ -20,6 +20,31 @@ Live site: https://mohammedhijazi.github.io/cs-smokes-helper/
 | `npm run build`                      | Type-check and build the site into `dist/`                        |
 | `npm run radars` / `npm run icons`   | Regenerate radar images / app icons (rarely needed)               |
 
+## Run with Docker
+
+To work on the project without installing Node, install
+[Docker Desktop](https://www.docker.com/products/docker-desktop/) and run:
+
+```sh
+docker compose up
+```
+
+Then open http://localhost:5173. Changes to the source reload the page, and edit mode saves into
+your own `data/maps/`, ready to commit. Stop it with Ctrl+C. The dev server is reachable from
+your computer only.
+
+Run any command from the table above in the container:
+
+```sh
+docker compose run --rm app npm test
+docker compose run --rm app npm run lint
+```
+
+The container keeps its own `node_modules` and reinstalls it by itself when `package-lock.json`
+changes. To try the built site, run
+`docker compose run --rm -p 127.0.0.1:4173:4173 app sh -c "npm run build && npm run preview"` and
+open http://localhost:4173.
+
 ## Data
 
 Each map has one file in `data/maps/` (`ancient`, `anubis`, `cache`, `dust2`, `inferno`,

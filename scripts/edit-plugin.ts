@@ -14,14 +14,16 @@ export interface RequestInfo {
   contentType?: string;
 }
 
-/** Spec §4 step 1: only this machine, only the dev site's own pages, only JSON. */
-export function requestProblem({
-  remoteAddress,
-  origin,
-  host,
-  contentType,
-}: RequestInfo): { status: 403 | 415; error: string } | null {
-  if (remoteAddress === undefined || !LOOPBACK.has(remoteAddress)) {
+/**
+ * Spec §4 step 1: only this machine, only the dev site's own pages, only JSON. `anyAddress` skips
+ * the address check, for a dev server in Docker: saves arrive from the container network, and
+ * compose.yaml publishes the port on 127.0.0.1 only, so this machine is still the only one in reach.
+ */
+export function requestProblem(
+  { remoteAddress, origin, host, contentType }: RequestInfo,
+  { anyAddress = false }: { anyAddress?: boolean } = {},
+): { status: 403 | 415; error: string } | null {
+  if (!anyAddress && (remoteAddress === undefined || !LOOPBACK.has(remoteAddress))) {
     return { status: 403, error: "not-local" };
   }
   if (origin !== undefined && !sameHost(origin, host))
@@ -57,17 +59,17 @@ export function createWriteTracker() {
 
 type Next = (error?: unknown) => void;
 
-export function createEditMiddleware({
-  dataDir,
-  onWritten,
-}: {
+interface MiddlewareOptions {
   dataDir: string;
   onWritten: (path: string, text: string) => void;
-}) {
+  anyAddress?: boolean;
+}
+
+export function createEditMiddleware(options: MiddlewareOptions) {
   return (req: IncomingMessage, res: ServerResponse, next: Next): void => {
     const match = ROUTE.exec((req.url ?? "").split("?")[0]);
     if (req.method !== "PUT" || !match) return next();
-    handleSave(req, res, match[1], dataDir, onWritten).catch(next);
+    handleSave(req, res, match[1], options).catch(next);
   };
 }
 
@@ -75,15 +77,17 @@ async function handleSave(
   req: IncomingMessage,
   res: ServerResponse,
   mapId: string,
-  dataDir: string,
-  onWritten: (path: string, text: string) => void,
+  { dataDir, onWritten, anyAddress }: MiddlewareOptions,
 ): Promise<void> {
-  const problem = requestProblem({
-    remoteAddress: req.socket.remoteAddress,
-    origin: req.headers.origin,
-    host: req.headers.host,
-    contentType: req.headers["content-type"],
-  });
+  const problem = requestProblem(
+    {
+      remoteAddress: req.socket.remoteAddress,
+      origin: req.headers.origin,
+      host: req.headers.host,
+      contentType: req.headers["content-type"],
+    },
+    { anyAddress },
+  );
   if (problem) return send(res, problem.status, { error: problem.error });
 
   let body: unknown;
@@ -124,14 +128,22 @@ function send(res: ServerResponse, status: number, body: unknown): void {
   res.end(JSON.stringify(body));
 }
 
+export interface EditPluginOptions {
+  dataDir?: string;
+  /** See requestProblem. */
+  anyAddress?: boolean;
+}
+
 /** Edit mode's dev-server side (spec §3–4). `apply: "serve"`: `vite build` never loads it. */
-export function editPlugin(dataDir: string = DATA_DIR): Plugin {
+export function editPlugin({ dataDir = DATA_DIR, anyAddress }: EditPluginOptions = {}): Plugin {
   const tracker = createWriteTracker();
   return {
     name: "cs-smokes-edit",
     apply: "serve",
     configureServer(server) {
-      server.middlewares.use(createEditMiddleware({ dataDir, onWritten: tracker.remember }));
+      server.middlewares.use(
+        createEditMiddleware({ dataDir, onWritten: tracker.remember, anyAddress }),
+      );
     },
     async handleHotUpdate({ file, read, modules, timestamp, server }) {
       if (!(await tracker.isOwnWrite(file, read))) return;

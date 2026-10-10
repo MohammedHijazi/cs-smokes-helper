@@ -1,0 +1,5 @@
+# The image only needs these; compose.yaml mounts the rest of the source.
+*
+!package.json
+!package-lock.json
+!docker/entrypoint.sh

@@ -1,0 +1,18 @@
+# Development environment: `docker compose up`, then open http://localhost:5173.
+# See "Run with Docker" in the README.
+services:
+  app:
+    build: .
+    init: true
+    ports:
+      # This machine only: in Docker, edit mode accepts saves from any address (vite.config.ts).
+      - "127.0.0.1:5173:5173"
+    environment:
+      DEV_IN_DOCKER: "1"
+    volumes:
+      - .:/app
+      # The container's own dependencies (Linux builds), kept apart from any on the host.
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:

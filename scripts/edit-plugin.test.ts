@@ -11,6 +11,7 @@ import {
   createEditMiddleware,
   createWriteTracker,
   editPlugin,
+  type EditPluginOptions,
   requestProblem,
 } from "./edit-plugin";
 import { makeDataDir } from "./temp-data-dir";
@@ -40,6 +41,14 @@ describe("requestProblem", () => {
       status: 403,
       error: "not-local",
     });
+  });
+
+  it("accepts any address when told to, but still refuses other websites", () => {
+    const fromContainer = { ...ok, remoteAddress: "172.18.0.1" };
+    expect(requestProblem(fromContainer, { anyAddress: true })).toBeNull();
+    expect(
+      requestProblem({ ...fromContainer, origin: "https://example.com" }, { anyAddress: true }),
+    ).toEqual({ status: 403, error: "foreign-origin" });
   });
 
   it("accepts the dev site's own origin and refuses others", () => {
@@ -200,7 +209,7 @@ describe("editPlugin hot updates", () => {
 
   beforeEach(async () => {
     data = await makeDataDir({ mirage: MIRAGE });
-    const plugin = editPlugin(data.dir);
+    const plugin = editPlugin({ dataDir: data.dir });
     let middleware: ReturnType<typeof createEditMiddleware> | undefined;
     (plugin.configureServer as (server: unknown) => void)({
       middlewares: { use: (fn: typeof middleware) => (middleware = fn) },
@@ -267,5 +276,63 @@ describe("editPlugin hot updates", () => {
     const { invalidateModule, result } = hotUpdate(() => "edited by hand");
     expect(await result).toBeUndefined();
     expect(invalidateModule).not.toHaveBeenCalled();
+  });
+});
+
+describe("editPlugin from a container", () => {
+  const MIRAGE: MapFile = makeMapFile("mirage", [makeLineup()]);
+  let data: Awaited<ReturnType<typeof makeDataDir>>;
+  let server: Server | undefined;
+
+  beforeEach(async () => {
+    data = await makeDataDir({ mirage: MIRAGE });
+  });
+
+  afterEach(async () => {
+    if (server) await new Promise((resolve) => server?.close(resolve));
+    server = undefined;
+    data.cleanup();
+  });
+
+  // Through Docker's port forwarding, a save arrives from the container network, not 127.0.0.1.
+  async function saveStatus(options: EditPluginOptions): Promise<number> {
+    const plugin = editPlugin({ dataDir: data.dir, ...options });
+    let middleware: ReturnType<typeof createEditMiddleware> | undefined;
+    (plugin.configureServer as (server: unknown) => void)({
+      middlewares: { use: (fn: typeof middleware) => (middleware = fn) },
+    });
+    const listening = createServer((req, res) => {
+      Object.defineProperty(req.socket, "remoteAddress", {
+        value: "172.18.0.1",
+        configurable: true,
+      });
+      middleware?.(req, res, () => {
+        res.statusCode = 404;
+        res.end();
+      });
+    });
+    server = listening;
+    await new Promise<void>((resolve) => listening.listen(0, "127.0.0.1", resolve));
+    const port = (listening.address() as AddressInfo).port;
+    return new Promise<number>((resolve, reject) => {
+      const req = httpRequest(
+        `http://127.0.0.1:${port}/__edit/maps/mirage`,
+        { method: "PUT", headers: { "Content-Type": "application/json" } },
+        (res) => {
+          res.resume();
+          res.on("end", () => resolve(res.statusCode ?? 0));
+        },
+      );
+      req.on("error", reject);
+      req.end(JSON.stringify({ base: MIRAGE, file: MIRAGE }));
+    });
+  }
+
+  it("refuses the save by default", async () => {
+    expect(await saveStatus({})).toBe(403);
+  });
+
+  it("accepts it with anyAddress", async () => {
+    expect(await saveStatus({ anyAddress: true })).toBe(200);
   });
 });
