@@ -82,9 +82,11 @@ smoke or execute id shows the existing Not found screen.
 1. The client sends the new map file (§4).
 2. The server writes it and remembers the text it wrote.
 3. When Vite's watcher reports the change, the plugin compares the file on disk with the
-   remembered text. If they match, it returns no modules to update, so Vite neither reloads
-   nor hot-updates. If they differ (a hand edit, `git checkout`), Vite behaves as it does
-   today and reloads the page.
+   remembered text. If they match, it marks the JSON module as hot-updated (so a later
+   import of it gets a fresh URL) and returns no modules to update, so the page is left as
+   it is. If they differ (a hand edit, `git checkout`), Vite hot-updates as it does today:
+   React Fast Refresh re-runs the data module and re-renders the screens that read it,
+   without a reload.
 4. The client receives the file as written and calls `replaceMapFile(mapId, file)`, which
    swaps that map's entry in the bundled data and notifies subscribers.
 5. Home, Map and Study call `useDataVersion()` (a `useSyncExternalStore` subscription), so
@@ -304,7 +306,7 @@ The form keeps its contents in every case unless the row says otherwise.
 | Dev server not running (`fetch` fails) | "Can't reach the dev server — is `npm run dev` running?" |
 | Write fails after retries (500) | "Couldn't write data/maps/<mapId>.json: <message>"; the original file is untouched |
 | Request from another address or origin (403), wrong content type (415) | Only reachable from outside the UI; nothing is written |
-| The file changes on disk while a form is open | Vite reloads the page as it does today; the open form is lost (known limit) |
+| The file changes on disk while a form is open | Vite hot-updates the page and the form keeps what you typed. If the item being edited changed, Save refuses with the "This map changed outside this page…" message and a Reload button; changes to other items are kept |
 
 ## 9. Testing
 
