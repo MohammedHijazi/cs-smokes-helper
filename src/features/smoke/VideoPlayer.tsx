@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Video } from "../../data/schema";
 import { effectiveStart, parseYouTubeUrl } from "../../lib/youtube";
-import { loadYouTubeApi, type YTPlayer } from "./youtubeApi";
+import { useYouTubePlayer } from "./useYouTubePlayer";
 import styles from "./VideoPlayer.module.css";
 
 const SPEEDS = [0.5, 1] as const;
@@ -48,75 +48,29 @@ interface ClipProps {
 
 function YouTubeClip({ videoId, start, end, url, title, autoplay }: ClipProps) {
   const host = useRef<HTMLDivElement>(null);
-  const player = useRef<YTPlayer | null>(null);
-  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
   const [speed, setSpeed] = useState<number>(1);
+  const { status, player } = useYouTubePlayer(host, {
+    videoId,
+    playerVars: { start, playsinline: 1, rel: 0, mute: 1, autoplay: autoplay ? 1 : 0 },
+    onReady: (target) => {
+      target.mute();
+      if (autoplay) target.playVideo();
+    },
+    onEnded: (target) => {
+      target.seekTo(start, true);
+      target.playVideo();
+    },
+  });
 
+  // The clip loop: once playback passes the end, jump back to the start.
   useEffect(() => {
-    let cancelled = false;
-    let instance: YTPlayer | null = null;
-    let timer: number | undefined;
-
-    // Safe to call more than once: it clears what it releases, so the unmount
-    // cleanup does not destroy the player again after an error did.
-    const teardown = () => {
-      if (timer !== undefined) {
-        window.clearInterval(timer);
-        timer = undefined;
-      }
-      instance?.destroy();
-      instance = null;
-      player.current = null;
-    };
-
-    loadYouTubeApi()
-      .then((YT) => {
-        if (cancelled || !host.current) return;
-        // The API replaces this element with its iframe, so React never owns it.
-        const mount = document.createElement("div");
-        host.current.appendChild(mount);
-        instance = new YT.Player(mount, {
-          host: "https://www.youtube-nocookie.com",
-          videoId,
-          width: "100%",
-          height: "100%",
-          playerVars: { start, playsinline: 1, rel: 0, mute: 1, autoplay: autoplay ? 1 : 0 },
-          events: {
-            onReady: ({ target }) => {
-              if (cancelled) return;
-              player.current = target;
-              target.mute();
-              if (autoplay) target.playVideo();
-              setStatus("ready");
-              if (end !== undefined) {
-                timer = window.setInterval(() => {
-                  if (target.getCurrentTime() >= end) target.seekTo(start, true);
-                }, LOOP_CHECK_MS);
-              }
-            },
-            onStateChange: ({ data, target }) => {
-              if (data === YT.PlayerState.ENDED) {
-                target.seekTo(start, true);
-                target.playVideo();
-              }
-            },
-            onError: () => {
-              if (cancelled) return;
-              teardown();
-              setStatus("error");
-            },
-          },
-        });
-      })
-      .catch(() => {
-        if (!cancelled) setStatus("error");
-      });
-
-    return () => {
-      cancelled = true;
-      teardown();
-    };
-  }, [videoId, start, end, autoplay]);
+    if (status !== "ready" || end === undefined) return;
+    const timer = window.setInterval(() => {
+      const target = player.current;
+      if (target && target.getCurrentTime() >= end) target.seekTo(start, true);
+    }, LOOP_CHECK_MS);
+    return () => window.clearInterval(timer);
+  }, [status, player, start, end]);
 
   if (status === "error") {
     return (

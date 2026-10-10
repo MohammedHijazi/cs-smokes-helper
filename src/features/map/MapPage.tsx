@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 import { NotFound } from "../../app/NotFound";
 import { findExecute, findLineup, getMapData } from "../../data";
 import { getMapInfo, hasLevels } from "../../data/maps";
@@ -13,10 +13,12 @@ import {
 } from "../../lib/filters";
 import { HIT_RADIUS_PX, nearestWithin, type Point } from "../../lib/radar";
 import { ExecuteList } from "../executes/ExecuteList";
+import { ExecuteMarkers } from "../executes/ExecuteMarkers";
 import { ExecuteView } from "../executes/ExecuteView";
 import { SmokeCard } from "../smoke/SmokeCard";
 import { FiltersBar, LevelSwitch } from "./FiltersBar";
 import { LineupList } from "./LineupList";
+import { MapFrame } from "./MapFrame";
 import { Radar } from "./Radar";
 import { LandingMarker, StandDot, StandLine } from "./markers";
 import styles from "./MapPage.module.css";
@@ -82,15 +84,7 @@ export function MapPage() {
 
   let radarContent: ReactNode;
   if (execute) {
-    radarContent = executeLineups.map((lineup, index) => (
-      <g key={lineup.id}>
-        {on(lineup.stand) && on(lineup.land) && <StandLine from={lineup.stand} to={lineup.land} />}
-        {on(lineup.land) && (
-          <LandingMarker at={lineup.land} side={lineup.side} label={String(index + 1)} />
-        )}
-        {on(lineup.stand) && <StandDot at={lineup.stand} side={lineup.side} />}
-      </g>
-    ));
+    radarContent = <ExecuteMarkers lineups={executeLineups} isShown={on} />;
   } else {
     radarContent = (
       <>
@@ -181,15 +175,11 @@ export function MapPage() {
   }
 
   return (
-    <div className={styles.page} data-open={selected ? "true" : "false"}>
-      <section className={styles.radarCol}>
-        <div className={styles.heading}>
-          <Link to="/" className={styles.back}>
-            ← Maps
-          </Link>
-          <h1>{map.name}</h1>
-        </div>
-        {execute ? (
+    <MapFrame
+      map={map}
+      open={selected !== undefined}
+      controls={
+        execute ? (
           withLevels && (
             <LevelSwitch
               value={filters.level}
@@ -202,7 +192,9 @@ export function MapPage() {
             filters={filters}
             onChange={(next) => replaceSearch(searchFor(next, tab))}
           />
-        )}
+        )
+      }
+      radar={
         <Radar
           map={map}
           level={filters.level}
@@ -211,8 +203,8 @@ export function MapPage() {
         >
           {radarContent}
         </Radar>
-      </section>
-      <section className={styles.panel}>{panel}</section>
-    </div>
+      }
+      panel={panel}
+    />
   );
 }
