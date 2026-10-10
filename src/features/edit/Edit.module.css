@@ -1,0 +1,8 @@
+.placement {
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.context {
+  opacity: 0.35;
+}
