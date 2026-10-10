@@ -18,8 +18,8 @@ describe("app shell", () => {
       "/maps/nuke",
     ]);
     expect(tiles[5]).toHaveTextContent("Mirage");
-    expect(tiles[5]).toHaveTextContent("4 smokes");
-    expect(tiles[0]).toHaveTextContent("0 smokes");
+    expect(tiles[5]).toHaveTextContent("0/4 known");
+    expect(tiles[0]).toHaveTextContent("0/0 known");
   });
 
   it("shows the credits in the footer", () => {

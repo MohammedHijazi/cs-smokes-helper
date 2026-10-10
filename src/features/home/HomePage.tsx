@@ -1,23 +1,39 @@
 import { Link } from "react-router";
-import { getMapData } from "../../data";
+import { useProgress } from "../../app/progress";
+import { allLineups, getMapData } from "../../data";
 import { MAPS } from "../../data/maps";
 import { assetUrl } from "../../lib/assets";
+import { knownCount, newAllowance, studyCounts } from "../../lib/scheduler";
 import styles from "./HomePage.module.css";
 
 export function HomePage() {
+  const { progress, today } = useProgress();
+  const { due, fresh } = studyCounts({
+    candidates: allLineups(),
+    cards: progress.cards,
+    filter: { maps: progress.settings.maps, sides: progress.settings.sides },
+    allowance: newAllowance(progress.newToday, progress.settings.newPerDay, today),
+    today,
+  });
+
   return (
     <section>
-      <h1 className={styles.title}>Maps</h1>
+      <div className={styles.top}>
+        <h1 className={styles.title}>Maps</h1>
+        <Link to="/study" className={styles.study}>
+          Study · {due + fresh} due
+        </Link>
+      </div>
       <ul className={styles.grid} aria-label="Maps">
         {MAPS.map((map) => {
-          const total = getMapData(map.id).lineups.filter((l) => l.status !== "broken").length;
+          const { known, total } = knownCount(getMapData(map.id).lineups, progress.cards);
           return (
             <li key={map.id}>
               <Link to={`/maps/${map.id}`} className={styles.tile}>
                 <img src={assetUrl(map.radar)} alt="" loading="lazy" className={styles.thumb} />
                 <span className={styles.name}>{map.name}</span>
                 <span className={styles.count}>
-                  {total} {total === 1 ? "smoke" : "smokes"}
+                  {known}/{total} known
                 </span>
               </Link>
             </li>

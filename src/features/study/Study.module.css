@@ -1,0 +1,134 @@
+.page {
+  display: grid;
+  gap: 16px;
+  max-width: 720px;
+}
+
+.progressLine {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.card {
+  display: grid;
+  gap: 16px;
+}
+
+.prompt {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+}
+
+.prompt h2 {
+  font-size: 1.3rem;
+  overflow-wrap: anywhere;
+}
+
+.mapName {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.side {
+  font-weight: 700;
+  color: var(--t-color);
+}
+
+.side[data-side="CT"] {
+  color: var(--ct-color);
+}
+
+.step {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.step h3 {
+  font-size: 1rem;
+}
+
+.step > div[data-testid="radar"] {
+  max-width: 520px;
+}
+
+.choices {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+
+.choices button,
+.rating button,
+.step > button,
+.row button,
+.start {
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  text-align: left;
+}
+
+.choices button[data-result="correct"] {
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+.choices button[data-result="wrong"] {
+  border-color: var(--bad);
+  color: var(--bad);
+}
+
+.result {
+  margin: 0;
+  font-weight: 600;
+}
+
+.notes {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.rating {
+  display: flex;
+  gap: 8px;
+}
+
+.fieldset {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+}
+
+.counts {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.start {
+  justify-self: start;
+  background: var(--accent);
+  color: #000;
+  font-weight: 700;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
