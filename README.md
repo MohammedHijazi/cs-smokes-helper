@@ -3,6 +3,8 @@
 A personal website for learning Counter-Strike 2 smoke lineups away from the game: pick a map,
 see its smokes on the radar, watch a looping clip of each throw, and drill them in study mode.
 
+Live site: https://mohammedhijazi.github.io/cs-smokes-helper/
+
 ## Commands
 
 | Command                              | What it does                                                   |
@@ -26,6 +28,14 @@ fields and rules are in the design spec (§6) — then run `npm run validate`,
 The starter smokes were added by following [docs/seeding.md](docs/seeding.md). They start as
 `"status": "unreviewed"`; set `"ok"` once you have checked one in game, or `"broken"` if a
 map update broke it.
+
+## Studying
+
+Study mode (`#/study`) shows the smokes that are due plus up to 10 new ones a day (change the
+number in Settings). For each smoke: tap where you stand, pick the throw, watch the clip, then
+answer Forgot or Got it. Smokes come back after 1, 2, 4, 8 and 16 days; from the 8-day box on
+they count as known. Progress is saved in each browser separately — use Settings → Export /
+Import to move it between your phone and PC.
 
 ## Publishing
 
